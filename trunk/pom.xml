@@ -8,6 +8,7 @@
   <name>bizcreator Multi Project</name>
   <url>http://maven.apache.org</url>
   <modules>
+  	<module>core</module>
   	<module>bizweb</module>
   </modules>
 </project>
