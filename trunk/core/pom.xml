@@ -6,11 +6,16 @@
   </parent-->
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bizcreator</groupId>
-  <artifactId>core</artifactId>
-  <name>core</name>
+  <artifactId>bizcreator-core</artifactId>
+  <name>BizCreator Core</name>
   <version>0.0.1-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <dependencies>
+      <dependency>
+          <groupId>org.apache.ibatis</groupId>
+            <artifactId>ibatis-sqlmap</artifactId>
+            <version>3.0-beta-2</version>
+      </dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
