@@ -1,12 +1,18 @@
 package org.apache.ibatis.binding;
 
-import org.apache.ibatis.executor.Executor;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.SqlCommandType;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.session.SqlSession;
 
 import java.lang.reflect.Method;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class MapperMethod {
 
@@ -17,20 +23,22 @@ public class MapperMethod {
   private String commandName;
 
   private Method method;
-  private int argCount;
 
   private boolean returnsList;
-  private boolean hasListBounds;
+
+  private Integer rowBoundsIndex;
+  private List<String> paramNames;
+  private List<Integer> paramPositions;
 
   public MapperMethod(Method method, SqlSession sqlSession) {
-
+    paramNames = new ArrayList<String>();
+    paramPositions = new ArrayList<Integer>();
     this.sqlSession = sqlSession;
     this.method = method;
     this.config = sqlSession.getConfiguration();
-
     setupFields();
-    determineSelectMethod();
-    determineCommandType();
+    setupMethodSignature();
+    setupCommandType();
     validateStatement();
   }
 
@@ -55,27 +63,71 @@ public class MapperMethod {
     } else {
       throw new BindingException("Unkown execution method for: " + commandName);
     }
-
     return result;
   }
 
-  private void setupFields() {
-    this.commandName = method.getDeclaringClass().getName() + "." + method.getName();
-    this.argCount = method.getParameterTypes().length;
+  private Object executeForList(Object[] args) throws SQLException {
+    Object result;
+    if (rowBoundsIndex != null) {
+      Object param = getParam(args);
+      RowBounds rowBounds = (RowBounds) args[rowBoundsIndex];
+      result = sqlSession.selectList(commandName, param, rowBounds);
+    } else {
+      Object param = getParam(args);
+      result = sqlSession.selectList(commandName, param);
+    }
+    return result;
   }
 
-  private void determineSelectMethod() {
+  private Object getParam(Object[] args) {
+    final int paramCount = paramPositions.size();
+    if (args == null || paramCount == 0) {
+      return null;
+    } else if (paramPositions.size() == 1) {
+      return args[paramPositions.get(0)];
+    } else {
+      Map param = new HashMap();
+      for (int i = 0; i < paramCount; i++) {
+        param.put(paramNames.get(i), args[paramPositions.get(i)]);
+      }
+      return param;
+    }
+  }
+
+  // Setup //
+
+  private void setupFields() {
+    this.commandName = method.getDeclaringClass().getName() + "." + method.getName();
+  }
+
+  private void setupMethodSignature() {
     if (List.class.isAssignableFrom(method.getReturnType())) {
       returnsList = true;
-      if (argCount == 2) {
-        hasListBounds = true;
-      } else if (argCount == 3) {
-        hasListBounds = true;
+    }
+    final Class[] argTypes = method.getParameterTypes();
+    for (int i = 0; i < argTypes.length; i++) {
+      if (RowBounds.class.isAssignableFrom(argTypes[i])) {
+        rowBoundsIndex = i;
+      } else {
+        String paramName = String.valueOf(paramPositions.size());
+        paramName = getParamNameFromAnnotation(i, paramName);
+        paramNames.add(paramName);
+        paramPositions.add(i);
       }
     }
   }
 
-  private void determineCommandType() {
+  private String getParamNameFromAnnotation(int i, String paramName) {
+    Object[] paramAnnos = method.getParameterAnnotations()[i];
+    for (int j = 0; j < paramAnnos.length; j++) {
+      if (paramAnnos[j] instanceof Param) {
+        paramName = ((Param) paramAnnos[j]).value();
+      }
+    }
+    return paramName;
+  }
+
+  private void setupCommandType() {
     MappedStatement ms = config.getMappedStatement(commandName);
     type = ms.getSqlCommandType();
     if (type == SqlCommandType.UNKNOWN) {
@@ -89,34 +141,6 @@ public class MapperMethod {
     } catch (Exception e) {
       throw new BindingException("Invalid bound statement (not found): " + commandName, e);
     }
-  }
-
-  private Object executeForList(Object[] args) throws SQLException {
-    Object result;
-    if (hasListBounds) {
-      Object param = getParam(args);
-      int offset = Executor.NO_ROW_OFFSET;
-      int limit = Executor.NO_ROW_LIMIT;
-      if (args.length == 3) {
-        offset = ((Integer) args[1]);
-        limit = ((Integer) args[2]);
-      } else if (args.length == 2) {
-        offset = ((Integer) args[0]);
-        limit = ((Integer) args[1]);
-      }
-      result = sqlSession.selectList(commandName, param, offset, limit);
-    } else {
-      Object param = getParam(args);
-      result = sqlSession.selectList(commandName, param);
-    }
-    return result;
-  }
-
-  private Object getParam(Object[] args) {
-    if (args == null) {
-      return null;
-    }
-    return args.length == 1 || args.length == 3 ? args[0] : null;
   }
 
 }
