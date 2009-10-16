@@ -1,9 +1,12 @@
 package org.apache.ibatis.executor;
 
-import org.apache.ibatis.cache.*;
-import org.apache.ibatis.executor.result.ResultHandler;
+import org.apache.ibatis.cache.Cache;
+import org.apache.ibatis.cache.CacheKey;
+import org.apache.ibatis.cache.TransactionalCacheManager;
 import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 
 import java.sql.SQLException;
@@ -24,6 +27,7 @@ public class CachingExecutor implements Executor {
 
   public void close() {
     delegate.close();
+    tcm.commit();
   }
 
   public boolean isClosed() {
@@ -36,7 +40,7 @@ public class CachingExecutor implements Executor {
   }
 
 
-  public List query(MappedStatement ms, Object parameterObject, int offset, int limit, ResultHandler resultHandler) throws SQLException {
+  public List query(MappedStatement ms, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     if (ms != null) {
       Cache cache = ms.getCache();
       if (cache != null) {
@@ -44,23 +48,23 @@ public class CachingExecutor implements Executor {
         cache.getReadWriteLock().readLock().lock();
         try {
           if (ms.isUseCache()) {
-            CacheKey key = createCacheKey(ms, parameterObject, offset, limit);
+            CacheKey key = createCacheKey(ms, parameterObject, rowBounds);
             if (cache.hasKey(key)) {
               return (List) cache.getObject(key);
             } else {
-              List list = delegate.query(ms, parameterObject, offset, limit, resultHandler);
+              List list = delegate.query(ms, parameterObject, rowBounds, resultHandler);
               tcm.putObject(cache, key, list);
               return list;
             }
           } else {
-            return delegate.query(ms, parameterObject, offset, limit, resultHandler);
+            return delegate.query(ms, parameterObject, rowBounds, resultHandler);
           }
         } finally {
           cache.getReadWriteLock().readLock().unlock();
         }
       }
     }
-    return delegate.query(ms, parameterObject, offset, limit, resultHandler);
+    return delegate.query(ms, parameterObject, rowBounds, resultHandler);
   }
 
   public List flushStatements() throws SQLException {
@@ -80,8 +84,8 @@ public class CachingExecutor implements Executor {
     }
   }
 
-  public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, int offset, int limit) {
-    return delegate.createCacheKey(ms, parameterObject, offset, limit);
+  public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds) {
+    return delegate.createCacheKey(ms, parameterObject, rowBounds);
   }
 
   public boolean isCached(MappedStatement ms, CacheKey key) {

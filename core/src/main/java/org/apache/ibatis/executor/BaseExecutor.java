@@ -2,18 +2,21 @@ package org.apache.ibatis.executor;
 
 import org.apache.ibatis.cache.CacheKey;
 import org.apache.ibatis.cache.impl.PerpetualCache;
-import org.apache.ibatis.executor.result.ResultHandler;
-import org.apache.ibatis.mapping.*;
+import static org.apache.ibatis.executor.ExecutionPlaceholder.EXECUTION_PLACEHOLDER;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.transaction.Transaction;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-import java.sql.*;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.*;
 
 public abstract class BaseExecutor implements Executor {
-
-  private static final Object EXECUTION_PLACEHOLDER = new Object();
 
   protected Transaction transaction;
 
@@ -65,18 +68,18 @@ public abstract class BaseExecutor implements Executor {
     return batchResults;
   }
 
-  public List query(MappedStatement ms, Object parameter, int offset, int limit, ResultHandler resultHandler) throws SQLException {
+  public List query(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) throws SQLException {
     ErrorContext.instance().resource(ms.getResource()).activity("executing a query").object(ms.getId());
     List list;
     try {
       queryStack++;
-      CacheKey key = createCacheKey(ms, parameter, offset, limit);
+      CacheKey key = createCacheKey(ms, parameter, rowBounds);
       if (localCache.hasKey(key)) {
         list = (List) localCache.getObject(key);
       } else {
         localCache.putObject(key, EXECUTION_PLACEHOLDER);
         try {
-          list = doQuery(ms, parameter, offset, limit, resultHandler);
+          list = doQuery(ms, parameter, rowBounds, resultHandler);
         } finally {
           localCache.removeObject(key);
         }
@@ -97,12 +100,12 @@ public abstract class BaseExecutor implements Executor {
     deferredLoads.add(new DeferredLoad(ms, resultObject, property, key));
   }
 
-  public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, int offset, int limit) {
+  public CacheKey createCacheKey(MappedStatement ms, Object parameterObject, RowBounds rowBounds) {
     BoundSql boundSql = ms.getBoundSql(parameterObject);
     CacheKey cacheKey = new CacheKey();
     cacheKey.update(ms.getId());
-    cacheKey.update(offset);
-    cacheKey.update(limit);
+    cacheKey.update(rowBounds.getOffset());
+    cacheKey.update(rowBounds.getLimit());
     cacheKey.update(boundSql.getSql());
     List<ParameterMapping> parameterMappings = boundSql.getParameterMappings();
     if (parameterMappings.size() > 0 && parameterObject != null) {
@@ -154,7 +157,7 @@ public abstract class BaseExecutor implements Executor {
   protected abstract List<BatchResult> doFlushStatements()
       throws SQLException;
 
-  protected abstract List doQuery(MappedStatement ms, Object parameter, int offset, int limit, ResultHandler resultHandler)
+  protected abstract List doQuery(MappedStatement ms, Object parameter, RowBounds rowBounds, ResultHandler resultHandler)
       throws SQLException;
 
   protected void closeStatement(Statement statement) {
