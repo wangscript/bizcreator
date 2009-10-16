@@ -1,8 +1,6 @@
 package org.apache.ibatis.session;
 
-import org.apache.ibatis.executor.result.ResultHandler;
-import org.apache.ibatis.mapping.Configuration;
-
+import java.sql.Connection;
 import java.util.List;
 
 public interface SqlSession {
@@ -15,11 +13,11 @@ public interface SqlSession {
 
   List selectList(String statement, Object parameter);
 
-  List selectList(String statement, Object parameter, int offset, int limit);
+  List selectList(String statement, Object parameter, RowBounds rowBounds);
 
   void select(String statement, Object parameter, ResultHandler handler);
 
-  void select(String statement, Object parameter, int offset, int limit, ResultHandler handler);
+  void select(String statement, Object parameter, RowBounds rowBounds, ResultHandler handler);
 
   int insert(String statement);
 
@@ -47,4 +45,5 @@ public interface SqlSession {
 
   <T> T getMapper(Class<T> type);
 
+  Connection getConnection();
 }
