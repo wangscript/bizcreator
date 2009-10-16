@@ -1,10 +1,14 @@
 package org.apache.ibatis.logging.jdbc;
 
-import org.apache.ibatis.logging.*;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
-import java.lang.reflect.*;
-import java.sql.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * Statement proxy to add logging
@@ -24,7 +28,7 @@ public class StatementLogger extends BaseJdbcLogger implements InvocationHandler
     try {
       if (EXECUTE_METHODS.contains(method.getName())) {
         if (log.isDebugEnabled()) {
-          log.debug("==> Executing: " + removeBreakingWhitespace((String) params[0]));
+          log.debug("==>  Executing: " + removeBreakingWhitespace((String) params[0]));
         }
         if ("executeQuery".equals(method.getName())) {
           ResultSet rs = (ResultSet) method.invoke(statement, params);
