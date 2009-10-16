@@ -1,8 +1,11 @@
 package org.apache.ibatis.cache;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class CacheKey {
+
+  public static final CacheKey NULL_CACHE_KEY = new CacheKey();
 
   private static final int DEFAULT_MULTIPLYER = 37;
   private static final int DEFAULT_HASHCODE = 17;
@@ -23,6 +26,10 @@ public class CacheKey {
   public CacheKey(Object[] objects) {
     this();
     updateAll(objects);
+  }
+
+  public int getUpdateCount() {
+    return updateList.size();
   }
 
   public void update(Object object) {
