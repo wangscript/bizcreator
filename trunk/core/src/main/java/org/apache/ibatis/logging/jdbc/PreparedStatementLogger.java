@@ -1,10 +1,15 @@
 package org.apache.ibatis.logging.jdbc;
 
-import org.apache.ibatis.logging.*;
+import org.apache.ibatis.logging.Log;
+import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.reflection.ExceptionUtil;
 
-import java.lang.reflect.*;
-import java.sql.*;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.Method;
+import java.lang.reflect.Proxy;
+import java.sql.CallableStatement;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 
 /**
  * PreparedStatement proxy to add logging
@@ -25,9 +30,8 @@ public class PreparedStatementLogger extends BaseJdbcLogger implements Invocatio
     try {
       if (EXECUTE_METHODS.contains(method.getName())) {
         if (log.isDebugEnabled()) {
-          log.debug("==> Executing: " + removeBreakingWhitespace(sql));
-          log.debug("==> Parameter Types: " + getTypeString());
-          log.debug("==> Parameters: " + getValueString());
+          log.debug("==>  Executing: " + removeBreakingWhitespace(sql));
+          log.debug("==> Parameters: " + getParameterValueString());
         }
         clearColumnInfo();
         if ("executeQuery".equals(method.getName())) {
