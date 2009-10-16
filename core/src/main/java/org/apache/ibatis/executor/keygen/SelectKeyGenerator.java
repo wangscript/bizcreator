@@ -1,8 +1,12 @@
 package org.apache.ibatis.executor.keygen;
 
-import org.apache.ibatis.executor.*;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.ExecutorException;
+import org.apache.ibatis.mapping.MappedStatement;
 import org.apache.ibatis.reflection.MetaObject;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.RowBounds;
 
 import java.sql.Statement;
 import java.util.List;
@@ -43,7 +47,7 @@ public class SelectKeyGenerator implements KeyGenerator {
               // Do not close keyExecutor.
               // The transaction will be closed by parent executor.
               Executor keyExecutor = configuration.newExecutor(executor.getTransaction(), ExecutorType.SIMPLE);
-              List values = keyExecutor.query(keyStatement, parameter, Executor.NO_ROW_OFFSET, Executor.NO_ROW_LIMIT, Executor.NO_RESULT_HANDLER);
+              List values = keyExecutor.query(keyStatement, parameter, RowBounds.DEFAULT, Executor.NO_RESULT_HANDLER);
               if (values.size() > 1) {
                 throw new ExecutorException("Select statement for SelectKeyGenerator returned more than one value.");
               }
