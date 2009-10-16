@@ -1,10 +1,14 @@
 package org.apache.ibatis.builder.xml;
 
-import org.apache.ibatis.builder.*;
+import org.apache.ibatis.builder.BaseBuilder;
+import org.apache.ibatis.builder.MapperBuilderAssistant;
 import org.apache.ibatis.executor.ErrorContext;
 import org.apache.ibatis.mapping.*;
-import org.apache.ibatis.parsing.*;
+import org.apache.ibatis.parsing.XNode;
+import org.apache.ibatis.parsing.XPathParser;
+import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
+import org.apache.ibatis.io.Resources;
 
 import java.io.Reader;
 import java.util.*;
@@ -17,7 +21,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   private String resource;
 
   public XMLMapperBuilder(Reader reader, Configuration configuration, String resource, Map<String, XNode> sqlFragments, String namespace) {
-    this(reader, configuration, resource,sqlFragments);
+    this(reader, configuration, resource, sqlFragments);
     this.builderAssistant.setCurrentNamespace(namespace);
   }
 
@@ -67,10 +71,10 @@ public class XMLMapperBuilder extends BaseBuilder {
     if (context != null) {
       String type = context.getStringAttribute("type", "PERPETUAL");
       type = typeAliasRegistry.resolveAlias(type);
-      Class typeClass = Class.forName(type);
+      Class typeClass = Resources.classForName(type);
       String eviction = context.getStringAttribute("eviction", "LRU");
       eviction = typeAliasRegistry.resolveAlias(eviction);
-      Class evictionClass = Class.forName(eviction);
+      Class evictionClass = Resources.classForName(eviction);
       Long flushInterval = context.getLongAttribute("flushInterval");
       Integer size = context.getIntAttribute("size");
       boolean readOnly = context.getBooleanAttribute("readOnly", false);
@@ -115,7 +119,7 @@ public class XMLMapperBuilder extends BaseBuilder {
   private ResultMap resultMapElement(XNode resultMapNode) throws Exception {
     return resultMapElement(resultMapNode, Collections.EMPTY_LIST);
   }
-  
+
   private ResultMap resultMapElement(XNode resultMapNode, List<ResultMapping> additionalResultMappings) throws Exception {
     ErrorContext.instance().activity("processing " + resultMapNode.getValueBasedIdentifier());
     String id = resultMapNode.getStringAttribute("id",
@@ -211,7 +215,7 @@ public class XMLMapperBuilder extends BaseBuilder {
         || "collection".equals(context.getName())
         || "case".equals(context.getName())) {
       if (context.getStringAttribute("select") == null) {
-        ResultMap resultMap = resultMapElement(context,resultMappings);
+        ResultMap resultMap = resultMapElement(context, resultMappings);
         return resultMap.getId();
       }
     }
@@ -223,7 +227,7 @@ public class XMLMapperBuilder extends BaseBuilder {
     if (namespace != null) {
       Class boundType = null;
       try {
-        boundType = Class.forName(namespace);
+        boundType = Resources.classForName(namespace);
       } catch (ClassNotFoundException e) {
         //ignore, bound type is not required
       }
