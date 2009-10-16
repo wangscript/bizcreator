@@ -1,9 +1,14 @@
 package org.apache.ibatis.mapping;
 
 import org.apache.ibatis.cache.Cache;
-import org.apache.ibatis.executor.keygen.*;
+import org.apache.ibatis.executor.keygen.Jdbc3KeyGenerator;
+import org.apache.ibatis.executor.keygen.KeyGenerator;
+import org.apache.ibatis.executor.keygen.NoKeyGenerator;
+import org.apache.ibatis.session.Configuration;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class MappedStatement {
 
@@ -23,6 +28,7 @@ public class MappedStatement {
   private SqlCommandType sqlCommandType;
   private KeyGenerator keyGenerator;
   private String keyProperty;
+  private boolean hasNestedResultMaps;
 
   private MappedStatement() {
   }
@@ -59,6 +65,9 @@ public class MappedStatement {
 
     public Builder resultMaps(List<ResultMap> resultMaps) {
       mappedStatement.resultMaps = resultMaps;
+      for (ResultMap resultMap : resultMaps) {
+        mappedStatement.hasNestedResultMaps = mappedStatement.hasNestedResultMaps || resultMap.hasNestedResultMaps();
+      }
       return this;
     }
 
@@ -97,7 +106,7 @@ public class MappedStatement {
       return this;
     }
 
-    public Builder keyGenerator (KeyGenerator keyGenerator) {
+    public Builder keyGenerator(KeyGenerator keyGenerator) {
       mappedStatement.keyGenerator = keyGenerator;
       return this;
     }
@@ -139,6 +148,10 @@ public class MappedStatement {
 
   public String getId() {
     return id;
+  }
+
+  public boolean hasNestedResultMaps() {
+    return hasNestedResultMaps;
   }
 
   public Integer getFetchSize() {

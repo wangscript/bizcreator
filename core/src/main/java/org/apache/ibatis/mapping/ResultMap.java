@@ -1,5 +1,7 @@
 package org.apache.ibatis.mapping;
 
+import org.apache.ibatis.session.Configuration;
+
 import java.util.*;
 
 public class ResultMap {
@@ -10,7 +12,9 @@ public class ResultMap {
   private List<ResultMapping> idResultMappings;
   private List<ResultMapping> constructorResultMappings;
   private List<ResultMapping> propertyResultMappings;
+  private Set<String> mappedColumns;
   private Discriminator discriminator;
+  private boolean hasNestedResultMaps;
 
   private ResultMap() {
   }
@@ -34,10 +38,23 @@ public class ResultMap {
     }
 
     public ResultMap build() {
+      resultMap.mappedColumns = new HashSet<String>();
       resultMap.idResultMappings = new ArrayList<ResultMapping>();
       resultMap.constructorResultMappings = new ArrayList<ResultMapping>();
       resultMap.propertyResultMappings = new ArrayList<ResultMapping>();
       for (ResultMapping resultMapping : resultMap.resultMappings) {
+        resultMap.hasNestedResultMaps = resultMap.hasNestedResultMaps || resultMapping.getNestedResultMapId() != null;
+        final String column = resultMapping.getColumn();
+        if (column != null) {
+          resultMap.mappedColumns.add(column.toUpperCase());
+        } else if (resultMapping.isCompositeResult()) {
+          for (ResultMapping compositeResultMapping : resultMapping.getComposites()) {
+            final String compositeColumn = compositeResultMapping.getColumn();
+            if (compositeColumn != null) {
+              resultMap.mappedColumns.add(compositeColumn.toUpperCase());
+            }
+          }
+        }
         if (resultMapping.getFlags().contains(ResultFlag.CONSTRUCTOR)) {
           resultMap.constructorResultMappings.add(resultMapping);
         } else {
@@ -55,12 +72,17 @@ public class ResultMap {
       resultMap.idResultMappings = Collections.unmodifiableList(resultMap.idResultMappings);
       resultMap.constructorResultMappings = Collections.unmodifiableList(resultMap.constructorResultMappings);
       resultMap.propertyResultMappings = Collections.unmodifiableList(resultMap.propertyResultMappings);
+      resultMap.mappedColumns = Collections.unmodifiableSet(resultMap.mappedColumns);
       return resultMap;
     }
   }
 
   public String getId() {
     return id;
+  }
+
+  public boolean hasNestedResultMaps() {
+    return hasNestedResultMaps;
   }
 
   public Class getType() {
@@ -82,6 +104,10 @@ public class ResultMap {
 
   public List<ResultMapping> getIdResultMappings() {
     return idResultMappings;
+  }
+
+  public Set<String> getMappedColumns() {
+    return mappedColumns;
   }
 
   public Discriminator getDiscriminator() {
