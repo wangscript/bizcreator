@@ -1,9 +1,13 @@
 package org.apache.ibatis.executor.statement;
 
-import org.apache.ibatis.executor.*;
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.ExecutorException;
 import org.apache.ibatis.executor.keygen.KeyGenerator;
-import org.apache.ibatis.executor.result.ResultHandler;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.mapping.ParameterMapping;
+import org.apache.ibatis.mapping.ParameterMode;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.JdbcType;
 
 import java.sql.*;
@@ -11,8 +15,8 @@ import java.util.List;
 
 public class CallableStatementHandler extends BaseStatementHandler {
 
-  public CallableStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, int rowOffset, int rowLimit, ResultHandler resultHandler) {
-    super(executor, mappedStatement, parameter, rowOffset, rowLimit, resultHandler);
+  public CallableStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameter, RowBounds rowBounds, ResultHandler resultHandler) {
+    super(executor, mappedStatement, parameter, rowBounds, resultHandler);
   }
 
   public int update(Statement statement)
@@ -53,6 +57,7 @@ public class CallableStatementHandler extends BaseStatementHandler {
   public void parameterize(Statement statement) throws SQLException {
     KeyGenerator keyGenerator = mappedStatement.getKeyGenerator();
     keyGenerator.processBefore(executor, mappedStatement, statement, boundSql.getParameterObject());
+    rebindGeneratedKey();
     registerOutputParameters((CallableStatement) statement);
     parameterHandler.setParameters((CallableStatement) statement);
   }
