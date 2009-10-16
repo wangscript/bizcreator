@@ -5,6 +5,8 @@ import org.apache.ibatis.parsing.GenericTokenParser;
 import java.util.Map;
 
 public class ForEachSqlNode implements SqlNode {
+  public static final String ITEM_PREFIX = "__frch_";
+
   private ExpressionEvaluator evaluator;
   private String collectionExpression;
   private SqlNode contents;
@@ -27,16 +29,26 @@ public class ForEachSqlNode implements SqlNode {
 
   public boolean apply(DynamicContext context) {
     Map<String, Object> bindings = context.getBindings();
-    final Iterable iterable = evaluator.evaluateIterable(collectionExpression, bindings);    
+    final Iterable iterable = evaluator.evaluateIterable(collectionExpression, bindings);
     boolean first = true;
     applyOpen(context);
     int i = 0;
     for (Object o : iterable) {
-      first = applySeparator(context, first);
+      DynamicContext oldContext = context;
+      if (first) {
+        first = false;
+        context = new PrefixedContext(context, "");
+      } else {
+        if (separator != null) {
+          context = new PrefixedContext(context, separator);
+        }
+      }
       int uniqueNumber = context.getUniqueNumber();
       applyItem(context, o, uniqueNumber);
       applyIndex(context, i);
       contents.apply(new FilteredDynamicContext(context, item, uniqueNumber));
+      first = !((PrefixedContext) context).isPrefixApplied();
+      context = oldContext;
       i++;
     }
     applyClose(context);
@@ -52,7 +64,7 @@ public class ForEachSqlNode implements SqlNode {
   private void applyItem(DynamicContext context, Object o, int i) {
     if (item != null) {
       context.bind(item, o);
-      context.bind(itemizeItem(item,i), o);
+      context.bind(itemizeItem(item, i), o);
     }
   }
 
@@ -62,17 +74,6 @@ public class ForEachSqlNode implements SqlNode {
     }
   }
 
-  private boolean applySeparator(DynamicContext context, boolean first) {
-    if (first) {
-      first = false;
-    } else {
-      if (separator != null) {
-        context.appendSql(separator);
-      }
-    }
-    return first;
-  }
-
   private void applyClose(DynamicContext context) {
     if (close != null) {
       context.appendSql(close);
@@ -80,11 +81,9 @@ public class ForEachSqlNode implements SqlNode {
   }
 
   private static String itemizeItem(String item, int i) {
-    return new StringBuilder("__").append(item).append("_").append(i).toString();
+    return new StringBuilder(ITEM_PREFIX).append(item).append("_").append(i).toString();
   }
 
-
-  
   private static class FilteredDynamicContext extends DynamicContext {
     private DynamicContext delegate;
     private int index;
@@ -112,19 +111,61 @@ public class ForEachSqlNode implements SqlNode {
     public void appendSql(String sql) {
       GenericTokenParser parser = new GenericTokenParser("#{", "}", new GenericTokenParser.TokenHandler() {
         public String handleToken(String content) {
-          String newContent = content.replaceFirst(item, itemizeItem(item,index));
+          String newContent = content.replaceFirst(item, itemizeItem(item, index));
           return new StringBuilder("#{").append(newContent).append("}").toString();
         }
       });
 
       delegate.appendSql(parser.parse(sql));
     }
-    
+
     @Override
     public int getUniqueNumber() {
       return delegate.getUniqueNumber();
     }
 
+  }
+
+
+  private class PrefixedContext extends DynamicContext {
+    private DynamicContext delegate;
+    private String prefix;
+    private boolean prefixApplied;
+
+    public PrefixedContext(DynamicContext delegate, String prefix) {
+      super(null);
+      this.delegate = delegate;
+      this.prefix = prefix;
+      this.prefixApplied = false;
+    }
+
+    public boolean isPrefixApplied() {
+      return prefixApplied;
+    }
+
+    public Map<String, Object> getBindings() {
+      return delegate.getBindings();
+    }
+
+    public void bind(String name, Object value) {
+      delegate.bind(name, value);
+    }
+
+    public void appendSql(String sql) {
+      if (!prefixApplied && sql != null && sql.trim().length() > 0) {
+        delegate.appendSql(prefix);
+        prefixApplied = true;
+      }
+      delegate.appendSql(sql);
+    }
+
+    public String getSql() {
+      return delegate.getSql();
+    }
+
+    public int getUniqueNumber() {
+      return delegate.getUniqueNumber();
+    }
   }
 
 }
