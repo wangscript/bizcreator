@@ -1,14 +1,23 @@
 package org.apache.ibatis.executor.statement;
 
-import org.apache.ibatis.executor.*;
+import org.apache.ibatis.executor.ErrorContext;
+import org.apache.ibatis.executor.Executor;
+import org.apache.ibatis.executor.ExecutorException;
+import org.apache.ibatis.executor.keygen.SelectKeyGenerator;
 import org.apache.ibatis.executor.parameter.ParameterHandler;
-import org.apache.ibatis.executor.result.ResultHandler;
 import org.apache.ibatis.executor.resultset.ResultSetHandler;
-import org.apache.ibatis.mapping.*;
+import org.apache.ibatis.mapping.BoundSql;
+import org.apache.ibatis.mapping.MappedStatement;
+import org.apache.ibatis.reflection.MetaObject;
 import org.apache.ibatis.reflection.factory.ObjectFactory;
+import org.apache.ibatis.session.Configuration;
+import org.apache.ibatis.session.ResultHandler;
+import org.apache.ibatis.session.RowBounds;
 import org.apache.ibatis.type.TypeHandlerRegistry;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public abstract class BaseStatementHandler implements StatementHandler {
 
@@ -20,17 +29,15 @@ public abstract class BaseStatementHandler implements StatementHandler {
 
   protected final Executor executor;
   protected final MappedStatement mappedStatement;
-  protected final int rowOffset;
-  protected final int rowLimit;
+  protected final RowBounds rowBounds;
 
   protected final BoundSql boundSql;
 
-  protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, int rowOffset, int rowLimit, ResultHandler resultHandler) {
+  protected BaseStatementHandler(Executor executor, MappedStatement mappedStatement, Object parameterObject, RowBounds rowBounds, ResultHandler resultHandler) {
     this.configuration = mappedStatement.getConfiguration();
     this.executor = executor;
     this.mappedStatement = mappedStatement;
-    this.rowOffset = rowOffset;
-    this.rowLimit = rowLimit;
+    this.rowBounds = rowBounds;
 
     this.typeHandlerRegistry = configuration.getTypeHandlerRegistry();
     this.objectFactory = configuration.getObjectFactory();
@@ -38,7 +45,7 @@ public abstract class BaseStatementHandler implements StatementHandler {
     this.boundSql = mappedStatement.getBoundSql(parameterObject);
 
     this.parameterHandler = configuration.newParameterHandler(mappedStatement, parameterObject, boundSql);
-    this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowOffset, rowLimit, parameterHandler, resultHandler, boundSql);
+    this.resultSetHandler = configuration.newResultSetHandler(executor, mappedStatement, rowBounds, parameterHandler, resultHandler, boundSql);
   }
 
   public BoundSql getBoundSql() {
@@ -98,6 +105,22 @@ public abstract class BaseStatementHandler implements StatementHandler {
       //ignore
     }
 
+  }
+
+  protected void rebindGeneratedKey() {
+    if (boundSql.getParameterObject() != null) {
+      String keyStatementName = mappedStatement.getId() + SelectKeyGenerator.SELECT_KEY_SUFFIX;
+      if (configuration.hasStatement(keyStatementName)) {
+        MappedStatement keyStatement = configuration.getMappedStatement(keyStatementName);
+        if (keyStatement != null) {
+          String keyProperty = keyStatement.getKeyProperty();
+          MetaObject metaParam = MetaObject.forObject(boundSql.getParameterObject());
+          if (keyProperty != null && metaParam.hasSetter(keyProperty) && metaParam.hasGetter(keyProperty)) {
+            boundSql.setAdditionalParameter(keyProperty, metaParam.getValue(keyProperty));
+          }
+        }
+      }
+    }
   }
 
 }
