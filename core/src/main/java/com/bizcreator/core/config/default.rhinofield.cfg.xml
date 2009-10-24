@@ -1,0 +1,53 @@
+<app-config>
+    
+    <string name="resource.business.calendar" value="org/jbpm/calendar/jbpm.business.calendar.properties" />
+    <string name="resource.default.modules" value="org/jbpm/graph/def/jbpm.default.modules.properties" />
+    <string name="resource.converter" value="org/jbpm/db/hibernate/jbpm.converter.properties" />
+    <string name="resource.action.types" value="org/jbpm/graph/action/action.types.xml" />
+    <string name="resource.node.types" value="org/jbpm/graph/node/node.types.xml" />
+    <string name="resource.parsers" value="org/jbpm/jpdl/par/jbpm.parsers.xml" />
+    <string name="resource.varmapping" value="org/jbpm/context/exe/jbpm.varmapping.xml" />
+    <string name="resource.mail.templates" value="jbpm.mail.templates.xml" />
+    
+    <bean name="sequenceManager" class="com.rhinofield.base.session.impl.SequenceSession" singleton="true" />
+    <bean name="_subsystem" class="com.rhinofield.base.entity.Subsystem">
+        <property name="name"><string>rhinofield base</string></property>
+    </bean>
+    
+    <list name="numList">
+        <string>one</string>
+        <string>two</string>
+        <string>three</string>
+    </list>
+    <map name="numMap">
+        <entry><key><int>1</int></key><value><string>one</string></value></entry>
+        <entry><key><int>2</int></key><value><string>two</string></value></entry>
+        <entry><key><int>3</int></key><value><string>three</string></value></entry>
+    </map>
+    
+    <bean class="example.Apple" />
+    <bean class="example.Juicer" />
+    <bean class="example.Peeler" />
+    
+    <bean class="example.Orange" />
+    <bean class="example.Banana" />
+    <bean class="example.Pear" />
+    
+    <bean class="example.FruitHandler" inject-type="SDI" />
+    
+    <bean name="dessertApple" class="example.GoldenDeliciousApple" />
+    <bean name="cookingApple" class="example.BramleyApple" />
+    <bean class="example.AppleProcessor" >
+        <constructor>
+            <parameter class="example.Apple">
+                <ref bean="dessertApple"/>
+            </parameter>
+            <parameter class="example.Apple">
+                <ref bean="cookingApple"/>
+            </parameter>
+        </constructor>
+        <property name="name"><string>abcde</string></property>
+        <property name="description"><string>abcde is a apple processor</string></property>
+    </bean>
+    
+</app-config>
