@@ -30,7 +30,7 @@
 
     <tx:annotation-driven transaction-manager="ibatisTxManager" />
 
-    <bean id="bizModelDao" class="com.bizcreator.core.dao.BizModelDao" lazy-init="true">
+    <bean id="bizModelDao" class="com.bizcreator.core.session.impl.BizModelSession" lazy-init="true">
         <property name="dataSource" ref="ds-bizcreator" />
         <property name="sessionFactory" ref="core.ibatisSessionFactory" />
     </bean>
