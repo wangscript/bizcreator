@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+
+    <bean id="ds-bizcreator" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
+        <property name="driverClass" value="com.mysql.jdbc.Driver"/>
+        <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/bizcreator?characterEncoding=utf8&amp;zeroDateTimeBehavior=convertToNull"/>
+        <property name="user" value="lgh"/>
+        <property name="password" value="abcd1234"/>
+        <property name="initialPoolSize" value="1"/>
+        <property name="maxPoolSize" value="5"/>
+        <property name="maxStatements" value="30"/>
+    </bean>
+
+    <bean id="core.ibatisSessionFactory" class="com.bizcreator.core.ibatis.SpringSqlSessionFactoryBuilder">
+        <property name="configLocation" value="ibatis-config-core.xml" />
+        <property name="dataSource" ref="ds-bizcreator" />
+    </bean>
+
+    <bean id="ibatisTxManager" class="com.bizcreator.core.ibatis.Ibatis3TransactionManager">
+        <property name="dataSource" ref="ds-bizcreator" />
+        <property name="sessionFactory" ref="core.ibatisSessionFactory" />
+    </bean>
+
+    <tx:annotation-driven transaction-manager="ibatisTxManager" />
+
+    <bean id="bizModelDao" class="com.bizcreator.core.dao.BizModelDao" lazy-init="true">
+        <property name="dataSource" ref="ds-bizcreator" />
+        <property name="sessionFactory" ref="core.ibatisSessionFactory" />
+    </bean>
+
+    <!-- form base project -->
+    <bean name="threadpool" class="org.jboss.util.threadpool.BasicThreadPool" destroy-method="stop">
+        <property name="maximumPoolSize" value="1"></property>
+    </bean>
+
+    <!--bean name="hibernate" class="com.rhinofield.base.hibernate.Hibernate" init-method="start" destroy-method="stop">
+    </bean-->
+
+   <bean id="rootService" class="com.rhinofield.base.session.impl.HibernateBase" scope="prototype">
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="serviceBase" class="com.rhinofield.base.session.impl.BasicSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="batchQuery" class="com.rhinofield.base.session.impl.BatchQuerySession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="lazyLoading" class="com.rhinofield.base.session.impl.LazyLoadingSession">
+        <property name="serviceBase" ref="rootService"/>
+        <property name="sessionFactory" ref="sessionFactory"/>
+    </bean>
+
+    <bean id="sequenceManager" class="com.rhinofield.base.session.impl.SequenceSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="moduleManager" class="com.rhinofield.base.session.impl.ModuleSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="lovManager" class="com.rhinofield.base.session.impl.LovSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="sysParamManager" class="com.rhinofield.base.session.impl.SysParamSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+
+    <bean id="statusManager" class="com.rhinofield.base.session.impl.StatusSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
+</beans>
