@@ -1,6 +1,6 @@
 package com.bizcreator.core;
 
-import com.bizcreator.core.dao.BizModelDao;
+import com.bizcreator.core.session.impl.BizModelSession;
 import java.util.Map;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
@@ -16,9 +16,9 @@ public class App {
 
         System.out.println(java.util.Arrays.toString(ac.getBeanDefinitionNames()));
 
-        BizModelDao dao = (BizModelDao) ac.getBean("bizModelDao");
+        BizModelSession dao = (BizModelSession) ac.getBean("bizModelDao");
 
-        //Map map = dao.findById("10000");
+        Map map = dao.findById("10000");
         
     }
 }
