@@ -5,7 +5,8 @@
        xmlns:tx="http://www.springframework.org/schema/tx"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
        http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
-       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd">
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+       default-lazy-init="true">
 
     <bean id="ds-bizcreator" class="com.mchange.v2.c3p0.ComboPooledDataSource" destroy-method="close">
         <property name="driverClass" value="com.mysql.jdbc.Driver"/>
@@ -39,43 +40,43 @@
         <property name="maximumPoolSize" value="1"></property>
     </bean>
 
-    <!--bean name="hibernate" class="com.rhinofield.base.hibernate.Hibernate" init-method="start" destroy-method="stop">
+    <!--bean name="hibernate" class="com.bizcreator.core.hibernate.Hibernate" init-method="start" destroy-method="stop">
     </bean-->
 
    <bean id="rootService" class="com.rhinofield.base.session.impl.HibernateBase" scope="prototype">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="serviceBase" class="com.rhinofield.base.session.impl.BasicSession">
+    <bean id="serviceBase" class="com.bizcreator.core.session.impl.BasicSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="batchQuery" class="com.rhinofield.base.session.impl.BatchQuerySession">
+    <bean id="batchQuery" class="com.bizcreator.core.session.impl.BatchQuerySession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="lazyLoading" class="com.rhinofield.base.session.impl.LazyLoadingSession">
+    <bean id="lazyLoading" class="com.bizcreator.core.session.impl.LazyLoadingSession">
         <property name="serviceBase" ref="rootService"/>
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
-    <bean id="sequenceManager" class="com.rhinofield.base.session.impl.SequenceSession">
+    <bean id="sequenceManager" class="com.bizcreator.core.session.impl.SequenceSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="moduleManager" class="com.rhinofield.base.session.impl.ModuleSession">
+    <bean id="moduleManager" class="com.bizcreator.core.session.impl.ModuleSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="lovManager" class="com.rhinofield.base.session.impl.LovSession">
+    <bean id="lovManager" class="com.bizcreator.core.session.impl.LovSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="sysParamManager" class="com.rhinofield.base.session.impl.SysParamSession">
+    <bean id="sysParamManager" class="com.bizcreator.core.session.impl.SysParamSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 
-    <bean id="statusManager" class="com.rhinofield.base.session.impl.StatusSession">
+    <bean id="statusManager" class="com.bizcreator.core.session.impl.StatusSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
 </beans>
