@@ -64,7 +64,7 @@ public class Function extends BasicEntity implements Serializable {
     
     
 	@Id @GeneratedValue(generator="domainIdGen")
-	@GenericGenerator(name="domainIdGen", strategy="com.rhinofield.base.hibernate.id.DomainIdentifierGenerator",
+	@GenericGenerator(name="domainIdGen", strategy="com.bizcreator.core.hibernate.DomainIdentifierGenerator",
 		parameters={
 			@Parameter(name="seq", value="md_function")
 		}
