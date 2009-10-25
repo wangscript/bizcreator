@@ -1,0 +1,21 @@
+<assembly>
+  <id>client</id>
+  <formats>
+    <format>jar</format>
+  </formats>
+  <includeBaseDirectory>false</includeBaseDirectory>
+  <!--baseDirectory>abcde</baseDirectory-->
+  <fileSets>
+    <fileSet>
+      <directory>target/classes</directory>
+      <outputDirectory>/</outputDirectory>
+      <excludes>
+        <exclude>com/bizcreator/core/session/impl/**</exclude>
+        <exclude>com/bizcreator/core/session/pool/**</exclude>
+        <exclude>com/bizcreator/core/*.*</exclude>
+        <exclude>org/apache/**/*.*</exclude>
+        <exclude>**/*.xml</exclude>
+      </excludes>
+    </fileSet>
+  </fileSets>
+</assembly>
