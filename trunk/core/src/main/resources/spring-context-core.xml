@@ -43,7 +43,7 @@
     <!--bean name="hibernate" class="com.bizcreator.core.hibernate.Hibernate" init-method="start" destroy-method="stop">
     </bean-->
 
-   <bean id="rootService" class="com.rhinofield.base.session.impl.HibernateBase" scope="prototype">
+   <bean id="rootService" class="com.bizcreator.core.session.impl.HibernateBase" scope="prototype">
         <property name="sessionFactory" ref="sessionFactory"/>
     </bean>
 
