@@ -12,7 +12,7 @@
       <excludes>
         <exclude>com/bizcreator/core/session/impl/**</exclude>
         <exclude>com/bizcreator/core/session/pool/**</exclude>
-        <exclude>com/bizcreator/core/*.*</exclude>
+        <!--exclude>com/bizcreator/core/*.*</exclude-->
         <exclude>org/apache/**/*.*</exclude>
         <exclude>**/*.xml</exclude>
       </excludes>
