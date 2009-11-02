@@ -36,22 +36,18 @@ public final class SpringSqlSessionFactoryBuilder implements FactoryBean, Initia
         this.dataSource = dataSource;
     }
 
-    @Override
     public SqlSessionFactory getObject() throws Exception {
         return sqlSessionFactory;
     }
 
-    @Override
     public Class<? extends SqlSessionFactory> getObjectType() {
         return sqlSessionFactory == null ? SqlSessionFactory.class : sqlSessionFactory.getClass();
     }
 
-    @Override
     public boolean isSingleton() {
         return true;
     }
 
-    @Override
     public void afterPropertiesSet() throws java.io.IOException {
         if (configLocation == null) {
             throw new IllegalArgumentException("Property 'configLocation' is required");
