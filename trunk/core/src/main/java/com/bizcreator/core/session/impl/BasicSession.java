@@ -11,7 +11,6 @@ import com.bizcreator.core.entity.AtomicEntity;
 import com.bizcreator.core.session.ServiceBase;
 import java.util.List;
 import java.util.Map;
-import javax.annotation.Resource;
 import javax.ejb.SessionContext;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
@@ -30,7 +29,7 @@ public class BasicSession extends AbstractSession implements ServiceBase {
     @PersistenceContext
     protected EntityManager em;
     
-    @Resource
+    //@Resource
     SessionContext ejbSessionCtx;
     protected ServiceBase serviceBase = null;
 
