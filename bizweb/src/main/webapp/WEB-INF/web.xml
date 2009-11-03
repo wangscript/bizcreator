@@ -75,5 +75,16 @@
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
     
+    <!-- Bsf remoting invoker -->
+    <servlet>
+        <servlet-name>BsfInvokerServlet</servlet-name>
+        <servlet-class>com.bizcreator.core.remoting.HttpSessionServer</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>BsfInvokerServlet</servlet-name>
+        <url-pattern>/BsfInvokerServlet/*</url-pattern>
+    </servlet-mapping>
     
 </web-app>
