@@ -10,6 +10,18 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 	
+	<!-- spring context -->
+	<context-param>
+        <param-name>contextConfigLocation</param-name>
+        <param-value>/WEB-INF/spring-context.xml</param-value>
+    </context-param>
+    
+    <listener>
+        <listener-class>com.bizcreator.core.config.ConfigureListener</listener-class>
+    </listener>
+    
+    
+    <!-- jsf config -->
 	<context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
@@ -62,4 +74,6 @@
         <url-pattern>/faces/*</url-pattern>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
+    
+    
 </web-app>
