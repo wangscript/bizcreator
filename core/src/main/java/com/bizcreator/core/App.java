@@ -17,7 +17,8 @@ public class App {
         System.out.println(java.util.Arrays.toString(ac.getBeanDefinitionNames()));
 
         BizModelSession dao = (BizModelSession) ac.getBean("bizModelDao");
-
+        
+        //查询
         Map map = dao.findById("10000");
         
     }
