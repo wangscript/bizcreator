@@ -4,10 +4,10 @@
     <groupId>com.bizcreator</groupId>
     <version>0.0.1-SNAPSHOT</version>
   </parent-->
+  <name>BizCreator Core</name>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.bizcreator</groupId>
   <artifactId>bizcreator-core</artifactId>
-  <name>BizCreator Core</name>
   <version>1.0-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
     <build>
