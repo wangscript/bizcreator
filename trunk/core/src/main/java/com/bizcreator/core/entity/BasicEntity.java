@@ -146,6 +146,8 @@ public class BasicEntity extends AtomicEntity implements java.io.Serializable, J
 		json.put("clientId", this.clientId);
 		json.put("orgId", this.orgId);
 		json.put("isActive", this.isActive);
+		json.put("created", this.created);
+		json.put("createdBy", this.createdBy);
 		json.put("updated", this.updated);
 		json.put("updatedBy", this.updatedBy);
 		
