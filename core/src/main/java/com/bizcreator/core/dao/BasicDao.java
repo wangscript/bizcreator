@@ -5,16 +5,24 @@
 
 package com.bizcreator.core.dao;
 
+import java.util.List;
+
+import com.bizcreator.core.entity.AtomicEntity;
+
 /**
  *
  * @author lgh
  */
 public interface BasicDao {
 
-    public int insert(Object entity);
+	public <T extends AtomicEntity> T insert(T entity);
 
-    public int update(Object entity);
+    public <T extends AtomicEntity> T update(T entity);
 
-    public int deleteById(String id);
+    public void deleteById(Object id);
+    
+    public <T> T findById(Object id);
+    
+    public <T> List<T> listAll(); 
     
 }

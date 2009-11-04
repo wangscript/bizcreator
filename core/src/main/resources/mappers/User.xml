@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.bizcreator.core.dao.UserDao">
+	
+	<resultMap id="userResultMap" type="com.bizcreator.core.entity.User">
+		
+		<id property="id" column="ID" />
+		<result property="isActive" column="IS_ACTIVE"/>
+		<result property="clientId" column="CLIENT_ID"/>
+		<result property="orgId" column="ORG_ID"/>
+		<result property="created" column="CREATED"/>
+		<result property="createdBy" column="CREATED_BY"/>
+		<result property="updated" column="UPDATED"/>
+		<result property="updatedBy" column="UPDATED_BY"/>
+		
+		<result property="code" column="CODE"/>
+		<result property="name" column="NAME"/>
+		<result property="email" column="EMAIL"/>
+		<result property="mobile" column="MOBILE"/>
+		<result property="msn" column="MSN"/>
+		<result property="phone" column="PHONE"/>
+		<result property="qq" column="QQ"/>
+		<result property="password" column="PASSWORD"/>
+		
+	</resultMap>
+
+	<insert id="insert" parameterType="com.bizcreator.core.entity.User">
+		INSERT INTO BIZ_USER (
+			ID, IS_ACTIVE, CLIENT_ID, ORG_ID, CREATED, CREATED_BY
+			, UPDATED, UPDATED_BY, CODE, NAME, EMAIL, MOBILE
+			, MSN, PHONE, QQ, PASSWORD)
+		VALUES (
+			#{id}, #{isActive}, #{clientId}, #{orgId}, #{created}, #{createdBy}
+			, #{updated}, #{updatedBy}, #{code}, #{name}, #{email}, #{mobile}
+			, #{msn}, #{phone}, #{qq}, #{password}
+		)
+	</insert>
+	
+	<update id="update" parameterType="com.bizcreator.core.entity.User">
+		UPDATE BIZ_USER 
+		SET IS_ACTIVE = #{isActive} , 
+			UPDATED = #{updated} , 
+			UPDATED_BY = #{updatedBy} , 
+			CODE = #{code} , 
+			EMAIL = #{email} , 
+			MOBILE = #{mobile} , 
+			MSN = #{msn} , 
+			NAME = #{name} ,  
+			PHONE = #{phone} , 
+			QQ = #{qq}
+		WHERE ID = #{id}
+	</update>
+	
+	<delete id="deleteById" parameterType="string">
+		DELETE FROM BIZ_USER WHERE ID = #{id}
+	</delete>
+
+    <select id="findById" parameterType="string" resultMap="userResultMap">
+        SELECT * FROM BIZ_USER WHERE ID = #{id}
+    </select>
+    
+    <select id="listAll" resultMap="userResultMap">
+        SELECT * FROM BIZ_USER
+    </select>
+    
+</mapper>

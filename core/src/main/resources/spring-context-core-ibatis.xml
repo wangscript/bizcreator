@@ -30,9 +30,14 @@
 
     <tx:annotation-driven transaction-manager="ibatisTxManager" />
 
-    <bean id="bizModelDao" class="com.bizcreator.core.session.impl.BizModelSession" lazy-init="true">
+    <bean id="core.bizModelMgr" class="com.bizcreator.core.session.impl.BizModelSession" lazy-init="true">
         <property name="dataSource" ref="ds-bizcreator" />
         <property name="sessionFactory" ref="core.ibatisSessionFactory" />
     </bean>
-
+	
+	<bean id="core.userMgr" class="com.bizcreator.core.session.impl.UserSession" lazy-init="true">
+        <property name="dataSource" ref="ds-bizcreator" />
+        <property name="sessionFactory" ref="core.ibatisSessionFactory" />
+    </bean>
+    
 </beans>

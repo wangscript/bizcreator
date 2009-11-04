@@ -12,14 +12,17 @@
             </dataSource>
         </environment>
     </environments-->
-  <environments default="ignored">
-    <environment id="ignored">
-      <transactionManager type="MANAGED" />
-      <dataSource type="UNPOOLED"/>
-    </environment>
-  </environments>
-    <mappers>
-        <mapper resource="mappers/BizModel.xml"/>
-        <mapper resource="mappers/TestMapper.xml" />
-    </mappers>
+  	<environments default="ignored">
+		<environment id="ignored">
+		  <transactionManager type="MANAGED" />
+		  <dataSource type="UNPOOLED"/>
+		</environment>
+  	</environments>
+  	<!--typeAliases>
+		<typeAlias alias="core.User" type="com.bizcreator.core.entity.User"/>
+	</typeAliases-->
+	<mappers>
+		<mapper resource="mappers/BizModel.xml"/>
+	    <mapper resource="mappers/User.xml"/>
+	</mappers>
 </configuration>
