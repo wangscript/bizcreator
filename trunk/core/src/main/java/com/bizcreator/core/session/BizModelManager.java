@@ -10,5 +10,5 @@ package com.bizcreator.core.session;
  * @author lgh
  */
 public interface BizModelManager {
-
+	public final static String NAME = "core.bizModelMgr";
 }

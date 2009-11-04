@@ -4,11 +4,15 @@ import com.bizcreator.core.QueryFactory;
 import javax.persistence.MappedSuperclass;
 
 import com.bizcreator.core.annotation.FieldInfo;
+import com.bizcreator.core.json.Jsonizable;
+
 import java.util.Date;
 import javax.persistence.Column;
 
+import net.sf.json.JSONObject;
+
 @MappedSuperclass
-public class BasicEntity extends AtomicEntity implements java.io.Serializable {
+public class BasicEntity extends AtomicEntity implements java.io.Serializable, Jsonizable {
 	
 	//系统委托人(公司)
 	@FieldInfo(name="公司", isColumn=false)
@@ -123,6 +127,31 @@ public class BasicEntity extends AtomicEntity implements java.io.Serializable {
 		this.updatedBy = updatedBy;
 	}
     
+	public Object fromJSON(JSONObject json) {
+		
+		this.id = json.getString("id");
+		this.clientId = json.getString("clientId");
+		this.orgId = json.getString("orgId");
+		this.isActive = json.getBoolean("isActive");
+		//this.created = json.getDate("created");
+		this.createdBy = json.getString("createdBy");
+		//updated = json.getDate("updated");
+		this.updatedBy = json.getString("updatedBy");
+		return this;
+	}
+
+	public JSONObject toJSON() {
+		JSONObject json = new JSONObject();
+		json.put("id", this.id);
+		json.put("clientId", this.clientId);
+		json.put("orgId", this.orgId);
+		json.put("isActive", this.isActive);
+		json.put("updated", this.updated);
+		json.put("updatedBy", this.updatedBy);
+		
+		return json;
+	}
+	
     public static void init() {
         String endPoint = (String) System.getProperties().get("end_point");
         if ("server".equals(endPoint)) {
@@ -145,4 +174,6 @@ public class BasicEntity extends AtomicEntity implements java.io.Serializable {
             });
         }
     }
+
+	
 }
