@@ -63,4 +63,8 @@
         SELECT * FROM BIZ_USER
     </select>
     
+    <select id="authenticate" parameterType="hashmap" resultMap="userResultMap">
+        SELECT * FROM BIZ_USER o WHERE o.NAME = #{username} AND o.PASSWORD=#{password}
+    </select>
+    
 </mapper>
