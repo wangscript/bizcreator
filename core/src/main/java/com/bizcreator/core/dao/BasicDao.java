@@ -19,6 +19,8 @@ public interface BasicDao {
 
     public <T extends AtomicEntity> T update(T entity);
 
+    public <T extends AtomicEntity> T save(T entity);
+    
     public void deleteById(Object id);
     
     public <T> T findById(Object id);

@@ -48,6 +48,15 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
         }
 	}
 	
+	public <T extends AtomicEntity> T save(T entity) {
+		if (entity.getId() == null) {
+			return insert(entity);
+		}
+		else {
+			return update(entity);
+		}
+	}
+	
 	public void deleteById(Object id) {
 		SqlSession session = openSession();
         try {
@@ -67,8 +76,6 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
             session.close();
         }
 	}
-
-	
 
 	public <T> List<T> listAll() {
 		SqlSession session = openSession();
