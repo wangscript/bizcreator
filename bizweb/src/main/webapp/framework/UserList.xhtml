@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+    <h:head>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+        <title>BizCreator - 用户列表</title>
+        <link rel="stylesheet" href="css/datatable.css" type="text/css" />
+        
+    </h:head>
+    <h:body>
+        <h2>用 户 列 表</h2>
+        <h:form action="UserEdit.jsf">
+            <div>
+                <h:commandButton action="#{userBean.addUser}" value="新增用户" />
+            </div>
+        <h:dataTable value="#{userBean.users}" var="user" styleClass="datatable" rowClasses="even,odd">
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="姓名"/>
+                </f:facet>
+                <h:outputText value="#{user.name}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="编码"/>
+                </f:facet>
+                <h:outputText value="#{user.code}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="EMail"/>
+                </f:facet>
+                <h:outputText value="#{user.email}"/>
+            </h:column>
+            <h:column>
+                <f:facet name="header">
+                    <h:outputText value="QQ"/>
+                </f:facet>
+                <h:outputText value="#{user.qq}"/>
+            </h:column>
+            <h:column>
+                <h:commandLink value="修改" action="#{userBean.editUser}" immediate="true">
+                    <f:setPropertyActionListener target="#{userBean.selectedId}" value="#{user.id}"/>
+                </h:commandLink>
+            </h:column>
+        </h:dataTable>
+        </h:form>
+    </h:body>
+</html>
