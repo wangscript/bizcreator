@@ -87,4 +87,23 @@
         <url-pattern>/BsfInvokerServlet/*</url-pattern>
     </servlet-mapping>
     
+    <!-- 登录Filter -->
+    <filter>
+        <filter-name>LoginFilter</filter-name>
+        <filter-class>com.rhinofield.web.LoginFilter</filter-class>
+        <init-param>
+            <description>请求编码类型</description>
+            <param-name>encoding</param-name>
+            <param-value>UTF-8</param-value>
+        </init-param>
+        <init-param>
+            <description>登录页面</description>
+            <param-name>loginPage</param-name>
+            <param-value>/framework/login.jsf</param-value>
+        </init-param>
+        </filter>
+    <filter-mapping>
+        <filter-name>LoginFilter</filter-name>
+        <url-pattern>*.jsf</url-pattern>
+    </filter-mapping>
 </web-app>
