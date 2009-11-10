@@ -5,8 +5,8 @@
 
 package com.bizcreator.core.entity;
 
-import org.apache.ibatis.mapping.ResultSetType;
-import org.apache.ibatis.mapping.StatementType;
+//import org.apache.ibatis.mapping.ResultSetType;
+//import org.apache.ibatis.mapping.StatementType;
 
 /**
  *
@@ -76,13 +76,13 @@ public class BizStatement {
         Statement, PreparedStatement or CallableStatement respectively. Default:
         PREPARED.
      */
-    protected StatementType stmtType;
+    //protected StatementType stmtType;
 
     /*
      resultSetType -- Any one of FORWARD_ONLY|SCROLL_SENSITIVE|SCROLL_INSENSITIVE. Default is
         unset (driver dependent).
      */
-    protected ResultSetType rsType;
+    //protected ResultSetType rsType;
 
     //following for insert update delete
     /*
