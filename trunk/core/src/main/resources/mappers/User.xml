@@ -32,7 +32,7 @@
 		VALUES (
 			#{id}, #{isActive}, #{clientId}, #{orgId}, #{created}, #{createdBy}
 			, #{updated}, #{updatedBy}, #{code}, #{name}, #{email}, #{mobile}
-			, #{msn}, #{phone}, #{qq}, #{password}
+			, #{msn}, #{phone}, #{qq}, #{password, jdbcType=VARCHAR}
 		)
 	</insert>
 	

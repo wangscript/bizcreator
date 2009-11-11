@@ -5,16 +5,20 @@ import java.util.List;
 import java.util.UUID;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bizcreator.core.dao.BasicDao;
 import com.bizcreator.core.entity.AtomicEntity;
 import com.bizcreator.core.entity.BasicEntity;
 import com.bizcreator.core.ibatis.Ibatis3DaoSupport;
 
+@Transactional(readOnly = true)
 public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
 	
 	public abstract String ns();
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public <T extends AtomicEntity> T insert(T entity) {
 		
 		entity.setId(UUID.randomUUID().toString());
@@ -23,16 +27,19 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
 			be.setActive(true);
 			be.setCreated(new Date(System.currentTimeMillis()));
 			be.setCreatedBy("Admin");
+			be.setUpdated(new Date(System.currentTimeMillis()));
+			be.setUpdatedBy("Admin");
+			if (be.getClientId() == null)
+				be.setClientId("0");
+			if (be.getOrgId() == null)
+				be.setOrgId("0");
 		}
 		SqlSession session = openSession();
-        try {
-            session.insert(ns() + ".insert", entity);
-            return entity;
-        } finally {
-            session.close();
-        }
+        session.insert(ns() + ".insert", entity);
+        return entity;
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public <T extends AtomicEntity> T update(T entity) {
 		if (entity instanceof BasicEntity) {
 			BasicEntity be = (BasicEntity) entity;
@@ -40,14 +47,12 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
 			be.setUpdatedBy("Admin");
 		}
 		SqlSession session = openSession();
-        try {
-            session.insert(ns() + ".update", entity);
-            return entity;
-        } finally {
-            session.close();
-        }
+        session.update(ns() + ".update", entity);
+        return entity;
+        
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public <T extends AtomicEntity> T save(T entity) {
 		if (entity.getId() == null) {
 			return insert(entity);
@@ -57,33 +62,21 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
 		}
 	}
 	
+	@Transactional(readOnly = false, propagation = Propagation.REQUIRED)
 	public void deleteById(Object id) {
 		SqlSession session = openSession();
-        try {
-            session.insert(ns() + ".deleteById", id);
-        } finally {
-            session.close();
-        }
-		
+        session.delete(ns() + ".deleteById", id);
 	}
 
 	public <T> T findById(Object id) {
 		SqlSession session = openSession();
-        try {
-            T entity = (T) session.selectOne(ns() + ".findById", id);
-            return entity;
-        } finally {
-            session.close();
-        }
+        T entity = (T) session.selectOne(ns() + ".findById", id);
+        return entity;
 	}
 
 	public <T> List<T> listAll() {
 		SqlSession session = openSession();
-        try {
-            List<T> list = (List<T>) session.selectList(ns() + ".listAll");
-            return list;
-        } finally {
-            session.close();
-        }
+        List<T> list = (List<T>) session.selectList(ns() + ".listAll");
+        return list;
 	}
 }
