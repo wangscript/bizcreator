@@ -4,11 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bizcreator.core.LoginContext;
 import com.bizcreator.core.entity.User;
 import com.bizcreator.core.session.UserManager;
 
+@Transactional(readOnly = true)
 public class UserSession extends IBatisBase implements UserManager {
 	
 	public final static String NS = "com.bizcreator.core.dao.UserDao";
@@ -25,17 +27,13 @@ public class UserSession extends IBatisBase implements UserManager {
 		params.put("password", password);
 		
 		SqlSession session = openSession();
-        try {
-            User user = (User) session.selectOne(ns() + ".authenticate", params);
-            if (user != null) {
-            	 LoginContext loginCtx = new LoginContext(user, user.getClientId(), user.getOrgId(), null);
-                 loginCtx.setDomain("rhino");
-                 return loginCtx;
-            }
-            
-        } finally {
-            session.close();
+		User user = (User) session.selectOne(ns() + ".authenticate", params);
+        if (user != null) {
+        	 LoginContext loginCtx = new LoginContext(user, user.getClientId(), user.getOrgId(), null);
+             loginCtx.setDomain("rhino");
+             return loginCtx;
         }
+            
         return null;
        
     }

@@ -147,16 +147,16 @@ public class BeanModel implements Model {
 
     @Transient
     public Map<String, Object> getProperties() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Transient
     public Collection<String> getPropertyNames() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     public <X> X remove(String name) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
     @Transient
