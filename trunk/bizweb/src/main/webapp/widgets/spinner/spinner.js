@@ -1,4 +1,4 @@
-YUI.add('slider', function(Y) {
+YUI.add('spinner', function(Y) {
 	var Lang = Y.Lang,
 		Widget = Y.Widget,
 		Node = Y.Node;
@@ -359,5 +359,7 @@ YUI.add('slider', function(Y) {
         }
         
 	});
+	
 	Y.Spinner = Spinner;
+	
 }, '3.0.0' ,{requires:['event-key', 'widget']});
