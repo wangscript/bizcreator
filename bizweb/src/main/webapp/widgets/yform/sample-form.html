@@ -1,0 +1,54 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+        <title>YUI3 Form</title>
+    </head>
+    <body class="yui-skin-sam">
+        <div class="testForm"></div>
+    </body>
+    <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+    <script type="text/javascript">
+    YUI({
+        modules: {
+            'gallery-form': {
+                fullpath: 'http://yui.yahooapis.com/gallery-2009.11.09-19/build/gallery-form/gallery-form-min.js',
+                requires: ['node','attribute','widget','io-form','substitute'],
+                optional: [],
+                supersedes: []
+          }
+     
+        }
+    }).use("gallery-form", function (Y) {
+        // Create a Field Object manually
+        var myField = new Y.CheckboxField({
+            name : "myCheckbox",
+            value : "check",
+            label : "Test Checkbox"
+        });
+     
+        var f = new Y.Form({
+            contentBox: '#testForm',
+            action : 'test.php',
+            method : 'post',
+            fields : [
+                myField,
+                {name : 'testText', required : true, label : 'Test Label'},
+                {name : 'testHiddenField', type : 'hidden'},
+                {name : 'testSelectField', type : 'select', choices : [{label : 'Foo', value : 'foo'}, {label : 'Bar', value : 'bar'}], label : 'testSelect'},
+                {name : 'submit', type : 'submit', label : 'Submit'},
+                {name : 'reset', type : 'reset', label : 'Reset'}
+            ]
+        });
+     
+        f.subscribe('success', function (args) {
+            alert ('Form submission successful');
+        });
+        f.subscribe('failure', function (args) {
+            alert('Form submission failed');
+        });
+     
+        f.render();
+    });
+    </script>
+ </html>
