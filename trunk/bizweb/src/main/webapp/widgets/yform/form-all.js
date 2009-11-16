@@ -283,7 +283,7 @@ Y.extend(Form, Y.Widget, {
 	 * @param {Y.Node} contentBox
 	 * @description Sets the 'fields' attribute based on parsed HTML
 	 */
-	_parseFields : function (contentBox) {
+	_parseFields : function (contentBox, forAttach) {
 		var children = contentBox.all('*'),
 			labels = contentBox.all('label'),
 			fields = [];
@@ -333,7 +333,8 @@ Y.extend(Form, Y.Widget, {
 				}
 				fields.push(o);
 			}
-			node.remove();
+			if (!forAttach)
+				node.remove();
 		});
 
 		return fields;
@@ -543,6 +544,31 @@ Y.extend(Form, Y.Widget, {
 	syncUI : function () {
 		this._syncFormAttributes();
 		this._syncErrors();
+	},
+	
+	syncModel : function() {
+		this.setAttrs({
+			action : _formNode.get('action'),
+			method : _formNode.get('method'),
+			id : _formNode.get('id')
+		}); 
+	},
+	
+	atach : function(node) {
+		if (typeof node === 'string') {
+			node = Y.one(node);
+		}
+		this._formNode = node;
+		this.bindUI();
+		this.syncModel();
+		this._attachFields();
+	},
+	
+	_attachFields : function() {
+		if (this._formNode) {
+			var fields = this._parseFields(this._formNode, true);
+			this._setFields(fields);
+		}
 	}
 });
 
