@@ -569,6 +569,51 @@ Y.extend(Form, Y.Widget, {
 			var fields = this._parseFields(this._formNode, true);
 			this._setFields(fields);
 		}
+	},
+	
+	setData : function(data) {
+		this.data = data || {};
+		var fields = this.get('fields'), i=0, l=fields.length, n, v;
+		for (;i<l;i++) {
+			n = fields[i].get('name');
+			if (n) {
+				v = data[n];
+				if (v !== undefined) {
+					fields[i].set('value', v);
+				}
+				else {
+					fields[i].clear();
+				}
+			}
+		}
+	},
+	
+	getData : function() {
+		if (!this.data) {
+			this.data = {};
+		}
+		var fields = this.get('fields'), i=0, l=fields.length, n, v;
+		for (;i<l;i++) {
+			n = fields[i].get('name');
+			if (n) {
+				v = fields[i].get('value');
+				if (v !== undefined) {
+					this.data[n] = v;
+				}
+				else {
+					delete this.data[n];
+				}
+			}
+		}
+	},
+	
+	applyData : function(data) {
+		if (!this.data) {
+			this.data = data;
+		}
+		else {
+			Y.mix(this.data, data, true);
+		}
 	}
 });
 
