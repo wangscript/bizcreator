@@ -178,8 +178,8 @@ YUI.add('ytemplate', function(Y) {
 	    		return node.get('lastChild');
 	    	}
 	    }
-	    
 	};
+	
 	/**
 	 * Alias for {@link #applyTemplate}
 	 * Returns an HTML fragment of this template with the specified values applied.
