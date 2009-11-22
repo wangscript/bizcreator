@@ -1,0 +1,50 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+	"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+	<head>
+		
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<title>Facebook Modal Overlay Example</title>
+		<link rel="stylesheet" type="text/css" href="http://yui.yahooapis.com/2.8.0r4/build/button/assets/skins/sam/button.css" />
+		
+
+		
+		<!--[if (IE 7)|(IE 8)]>
+			<style type="text/css">
+				.yui-overlay-mask { background: url(img/light.png); }
+				.yui-widget #fbOverlay { background: url(img/dark.png); } 
+			</style>
+		<![endif]-->
+	</head>
+	
+	<body class="yui-skin-sam">
+		<div id="wrapper">
+			<h1>Facebook <em>Modal</em> Overlay Example</h1>
+			<p>
+				This example of a Facebook-style overlay is created with YUI 3 and CSS 3.<br />
+				The overlay is modal (i.e. you can't click or select anything under it) and is also draggable; grab it by the heading.
+			</p>
+			<p>
+				<span id="btn1Span" class="yui-button yui-push-button">
+					<span class="first-child">
+					<button id="btn1">Add</button>
+					</span>
+				</span>
+			</p>
+			
+		</div>
+		
+		<script src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+			YUI().use('node', 'event', function(Y) {
+				Y.on('mouseover', function(e) {
+					Y.one('#btn1Span').addClass('yui-button-hover yui-push-button-hover');
+				}, '#btn1Span');
+				Y.on('mouseout', function(e) {
+					Y.one('#btn1Span').removeClass('yui-button-hover yui-push-button-hover');
+				}, '#btn1Span');
+			});
+		</script>
+	</body>
+</html>
