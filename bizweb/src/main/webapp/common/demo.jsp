@@ -11,7 +11,9 @@
     <script language="javascript" type="text/javascript">
         
         Ext.onReady(function(){
-            
+        	var svc = new BIZ.ServiceProxy('core.userMgr');
+        	var user = svc.invoke('findById',['000000000001@rhino']);
+        	
         });
     </script>
 </head>
