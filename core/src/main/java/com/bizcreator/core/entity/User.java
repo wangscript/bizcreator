@@ -28,8 +28,8 @@ import org.hibernate.validator.NotEmpty;
  *
  * @author lgh
  */
-@Entity
-@Table(name = "biz_user")
+//@Entity
+//@Table(name = "biz_user")
 public class User extends BasicEntity implements com.bizcreator.core.security.User, Serializable, Jsonizable {
 
     @FieldInfo(name = "编码")
