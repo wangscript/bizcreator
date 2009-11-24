@@ -640,7 +640,7 @@ public class ObjectUtil {
             if (mt != null) return mt;
         }
         catch (Exception ex) {
-            ex.printStackTrace();
+            //ex.printStackTrace();
         }
         
         try {
