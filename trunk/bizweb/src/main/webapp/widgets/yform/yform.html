@@ -4,6 +4,7 @@
         <meta http-equiv="content-type" content="text/html; charset=UTF-8">
         <title>YUI3 Form</title>
         <link rel="stylesheet" type="text/css" href="assets/skins/sam/yform.css" />
+        <link rel="stylesheet" type="text/css" href="../calendar/assets/skins/sam/calendar.css" />
         <style>
         	
         </style>
@@ -23,8 +24,12 @@
         		<td>abcde</td>
         	</tr>
         </table>
+        <div id="date1"></div>
     </body>
     <script type="text/javascript" src="http://yui.yahooapis.com/3.0.0/build/yui/yui-min.js"></script>
+    <script type="text/javascript" src="date-field.js"></script>
+    <script type="text/javascript" src="../../common/yui-ext.js"></script>
+    <script type="text/javascript" src="../calendar/calendar.js"></script>
     <script type="text/javascript">
     YUI({
         modules: {
@@ -36,7 +41,7 @@
           }
      
         }
-    }).use("gallery-form", function (Y) {
+    }).use("gallery-form", "date-field", "t-calendar", function (Y) {
         // Create a Field Object manually
         var myField = new Y.CheckboxField({
             name : "myCheckbox",
@@ -66,6 +71,19 @@
         });
      
         f.render();
+
+        //
+        var date1 = new Y.DateField({contentBox: '#date1'});
+        date1.render();
+
+        var c = new T.tbwidget.calendar(Y.Node.get('#date1'),function(d){
+	   		 Y.log(Y.dump(d));
+	   		 //Y.Node.get('#c').set('value',Y.dump(d));
+	   		 date1.set('value', d);
+	   		 c.render({selectedate:d});
+	   	 },{
+	   		date:'2009/11/02' 
+	   	 });
     });
     </script>
  </html>
