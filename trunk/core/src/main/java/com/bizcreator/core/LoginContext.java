@@ -93,7 +93,7 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
     }
 
     public Object fromJSON(JSONObject json) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return null;
     }
 
 }
