@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE configuration PUBLIC "-//ibatis.apache.org//DTD Config 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-config.dtd">
 <configuration>
-    <!--environments default="development">
+    <environments default="development">
         <environment id="development">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
@@ -11,18 +11,18 @@
                 <property name="password" value="abcd1234"/>
             </dataSource>
         </environment>
+    </environments>
+    <!--environments default="ignored">
+            <environment id="ignored">
+              <transactionManager type="MANAGED" />
+              <dataSource type="UNPOOLED"/>
+            </environment>
     </environments-->
-  	<environments default="ignored">
-		<environment id="ignored">
-		  <transactionManager type="MANAGED" />
-		  <dataSource type="UNPOOLED"/>
-		</environment>
-  	</environments>
-  	<!--typeAliases>
-		<typeAlias alias="core.User" type="com.bizcreator.core.entity.User"/>
-	</typeAliases-->
-	<mappers>
-		<mapper resource="mappers/BizModel.xml"/>
-	    <mapper resource="mappers/User.xml"/>
-	</mappers>
+    <!--typeAliases>
+            <typeAlias alias="core.User" type="com.bizcreator.core.entity.User"/>
+    </typeAliases-->
+    <mappers>
+        <mapper resource="mappers/BizModel.xml"/>
+        <mapper resource="mappers/User.xml"/>
+    </mappers>
 </configuration>
