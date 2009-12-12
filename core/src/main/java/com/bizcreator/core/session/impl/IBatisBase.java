@@ -34,6 +34,8 @@ public abstract class IBatisBase extends Ibatis3DaoSupport implements BasicDao {
 			if (be.getOrgId() == null)
 				be.setOrgId("0");
 		}
+
+
 		SqlSession session = openSession();
         session.insert(ns() + ".insert", entity);
         return entity;
