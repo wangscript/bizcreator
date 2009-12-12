@@ -18,26 +18,32 @@
         <property name="maxStatements" value="30"/>
     </bean>
 
-    <bean id="core.ibatisSessionFactory" class="com.bizcreator.core.ibatis.SpringSqlSessionFactoryBuilder">
-        <property name="configLocation" value="ibatis-config-core.xml" />
+    <bean id="ibatisTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="ds-bizcreator" />
-    </bean>
-
-    <bean id="ibatisTxManager" class="com.bizcreator.core.ibatis.Ibatis3TransactionManager">
-        <property name="dataSource" ref="ds-bizcreator" />
-        <property name="sessionFactory" ref="core.ibatisSessionFactory" />
     </bean>
 
     <tx:annotation-driven transaction-manager="ibatisTxManager" />
 
-    <bean id="core.bizModelMgr" class="com.bizcreator.core.session.impl.BizModelSession" lazy-init="true">
+    <bean id="sqlSessionFactory" class="org.springframework.orm.ibatis3.SqlSessionFactoryBean">
+        <property name="configLocation" value="classpath:ibatis-config-core.xml"/>
+        <property name="dataSource" ref="ds-bizcreator"/>
+    </bean>
+
+    <!--bean id="core.ibatisSessionFactory" class="com.bizcreator.core.ibatis.SpringSqlSessionFactoryBuilder">
+        <property name="configLocation" value="ibatis-config-core.xml" />
+        <property name="dataSource" ref="ds-bizcreator" />
+    </bean-->
+
+    
+
+    <!--bean id="core.bizModelMgr" class="com.bizcreator.core.session.impl.BizModelSession" lazy-init="true">
         <property name="dataSource" ref="ds-bizcreator" />
         <property name="sessionFactory" ref="core.ibatisSessionFactory" />
-    </bean>
+    </bean-->
 	
 	<bean id="core.userMgr" class="com.bizcreator.core.session.impl.UserSession" lazy-init="true">
         <property name="dataSource" ref="ds-bizcreator" />
-        <property name="sessionFactory" ref="core.ibatisSessionFactory" />
+        <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
     
 </beans>
