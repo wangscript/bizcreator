@@ -1,8 +1,8 @@
 YUI.add('date-field', function(Y) {
 	
 	var Lang = Y.Lang,
-    Widget = Y.Widget,
-    Node = Y.Node;
+	    Widget = Y.Widget,
+	    Node = Y.Node;
 
 	/* Spinner class constructor */
 	function DateField(config) {
