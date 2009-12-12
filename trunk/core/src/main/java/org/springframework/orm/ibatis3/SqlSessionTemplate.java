@@ -25,18 +25,18 @@ import org.springframework.util.Assert;
  * <code>org.springframework.dao</code> exception hierarchy. Uses the same
  * {@link org.springframework.jdbc.support.SQLExceptionTranslator} mechanism as
  * {@link org.springframework.jdbc.core.JdbcTemplate}.
- * 
+ *
  * <p>
  * The main method of this class executes a callback that implements a data
  * access action. Furthermore, this class provides numerous convenience methods
  * that mirror {@link org.apache.ibatis.executor.Executor}'s execution methods.
- * 
+ *
  * <p>
  * It is generally recommended to use the convenience methods on this template
  * for plain query/insert/update/delete operations. However, for more complex
  * operations like batch updates, a custom SqlSessionCallback must be
  * implemented, usually as anonymous inner class. For example:
- * 
+ *
  * <pre class="code">
  * getSqlSessionTemplate().execute(new SqlSessionCallback&lt;Object&gt;() {
  *     public Object doInSqlSession(SqlSession sqlSession) throws SQLException {
@@ -46,7 +46,7 @@ import org.springframework.util.Assert;
  *     }
  * }, ExecutorType.BATCH);
  * </pre>
- * 
+ *
  * The template needs a SqlSessionFactory to work on, passed in via the
  * "sqlSessionFactory" property. A Spring context typically uses a
  * {@link SqlSessionFactoryBean} to build the SqlSession. The template an
@@ -54,7 +54,7 @@ import org.springframework.util.Assert;
  * although this is not necessary if a DataSource is specified for the
  * SqlSessionFactory itself (typically through SqlSqlSessionFactoryBean's
  * "dataSource" property).
- * 
+ *
  * @author Putthibong Boonbong
  * @since 3.0
  * @see #execute
@@ -103,7 +103,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     /**
      * Execute the given data access action on a Executor.
-     * 
+     *
      * @param action
      *            callback object that specifies the data access action
      * @return a result object returned by the action, or <code>null</code>
@@ -133,10 +133,10 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     public Object selectOne(final String statement, final Object parameter) {
         return execute(new SqlSessionCallback<Object>() {
-			public Object doInSqlSession(SqlSession sqlSession) {
-				return sqlSession.selectOne(statement, parameter);
-			}
-            
+            @Override
+            public Object doInSqlSession(SqlSession sqlSession) {
+                return sqlSession.selectOne(statement, parameter);
+            }
         });
     }
 
@@ -150,6 +150,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     public List selectList(final String statement, final Object parameter, final RowBounds rowBounds) {
         return execute(new SqlSessionCallback<List>() {
+            @Override
             public List doInSqlSession(SqlSession sqlSession) {
                 return sqlSession.selectList(statement, parameter, rowBounds);
             }
@@ -163,6 +164,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
     public void select(final String statement, final Object parameter, final RowBounds rowBounds,
             final ResultHandler handler) {
         execute(new SqlSessionCallback<Object>() {
+            @Override
             public Object doInSqlSession(SqlSession sqlSession) {
                 sqlSession.select(statement, parameter, rowBounds, handler);
                 return null;
@@ -176,6 +178,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     public int insert(final String statement, final Object parameter) {
         return execute(new SqlSessionCallback<Integer>() {
+            @Override
             public Integer doInSqlSession(SqlSession sqlSession) {
                 return sqlSession.insert(statement, parameter);
             }
@@ -188,6 +191,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     public int update(final String statement, final Object parameter) {
         return execute(new SqlSessionCallback<Integer>() {
+            @Override
             public Integer doInSqlSession(SqlSession sqlSession) {
                 return sqlSession.update(statement, parameter);
             }
@@ -200,6 +204,7 @@ public class SqlSessionTemplate extends JdbcAccessor implements SqlSessionOperat
 
     public int delete(final String statement, final Object parameter) {
         return execute(new SqlSessionCallback<Integer>() {
+            @Override
             public Integer doInSqlSession(SqlSession sqlSession) {
                 return sqlSession.delete(statement, parameter);
             }

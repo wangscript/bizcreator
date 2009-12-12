@@ -104,7 +104,7 @@ public interface SqlSessionOperations {
     int delete(String statement, Object parameter);
 
 	/**
-	 * @see org.apache.ibatis.session.SqlSession#getMapper(Class) 
+	 * @see org.apache.ibatis.session.SqlSession#getMapper(Class)
 	 * @throws org.springframework.dao.DataAccessException in case of errors
 	 */
     <T> T getMapper(Class<T> type);

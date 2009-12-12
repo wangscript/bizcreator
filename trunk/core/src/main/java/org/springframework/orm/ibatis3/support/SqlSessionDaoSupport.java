@@ -29,7 +29,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 	private SqlSessionTemplate sqlSessionTemplate = new SqlSessionTemplate();
 
 	private boolean externalTemplate = false;
-                     
+
 	/**
 	 * Set the JDBC DataSource to be used by this DAO.
 	 * Not required: The SqlSession might carry a shared DataSource.
@@ -40,14 +40,14 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 	  	this.sqlSessionTemplate.setDataSource(dataSource);
 		}
 	}
-                              
+
 	/**
 	 * Return the JDBC DataSource used by this DAO.
 	 */
 	public final DataSource getDataSource() {
 		return this.sqlSessionTemplate.getDataSource();
 	}
-                         
+
 	/**
 	 * Set the iBATIS Database Layer SqlSession to work with.
 	 * Either this or a "SqlSessionTemplate" is required.
@@ -58,14 +58,14 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 			this.sqlSessionTemplate.setSqlSessionFactory(sqlSessionFactory);
 		}
 	}
-                     
+
 	/**
 	 * Return the iBATIS Database Layer SqlSession that this template works with.
 	 */
 	public final SqlSessionFactory getSqlSessionFactory() {
 		return this.sqlSessionTemplate.getSqlSessionFactory();
 	}
-                   
+
 	/**
 	 * Set the SqlSessionTemplate for this DAO explicitly,
 	 * as an alternative to specifying a SqlSession.
@@ -76,7 +76,7 @@ public abstract class SqlSessionDaoSupport extends DaoSupport {
 		this.sqlSessionTemplate = sqlSessionTemplate;
 		this.externalTemplate = true;
 	}
-                   
+
 	/**
 	 * Return the SqlSessionTemplate for this DAO,
 	 * pre-initialized with the SqlSession or set explicitly.

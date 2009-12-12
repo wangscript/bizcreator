@@ -30,19 +30,19 @@ import java.util.Map;
  * set up a shared iBATIS SqlSessionFactory in a Spring application context; the
  * SqlSessionFactory can then be passed to iBATIS-based DAOs via dependency
  * injection.
- * 
+ *
  * <p>
  * Either
  * {@link org.springframework.jdbc.datasource.DataSourceTransactionManager} or
  * {@link org.springframework.transaction.jta.JtaTransactionManager} can be used
  * for transaction demarcation in combination with a SqlSessionFactory, with JTA
  * only necessary for transactions which span multiple databases.
- * 
+ *
  * <p>
  * Allows for specifying a DataSource at the SqlSessionFactory level. This is
  * preferable to per-DAO DataSource references, as it allows for lazy loading
  * and avoids repeated DataSource references in every DAO.
- * 
+ *
  * @author Putthibong Boonbong
  * @since 3.0
  * @see #setConfigLocation
@@ -73,7 +73,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
     /**
      * Set the location of the iBATIS SqlSessionFactory config file. A typical
      * value is "WEB-INF/ibatis-configuration.xml".
-     * 
+     *
      * @see #setConfigLocations
      */
     public void setConfigLocation(Resource configLocation) {
@@ -107,7 +107,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
      * as alternative to a <code>&lt;properties&gt;</code> tag in the
      * sql-map-config.xml file. Will be used to resolve placeholders in the
      * config file.
-     * 
+     *
      * @see #setConfigLocation
      * @see org.apache.ibatis.session.SqlSessionFactoryBuilder
      */
@@ -131,7 +131,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
      * manager needs to work on the underlying target DataSource. If there's
      * nevertheless a TransactionAwareDataSourceProxy passed in, it will be
      * unwrapped to extract its target DataSource.
-     * 
+     *
      * @see org.springframework.jdbc.datasource.TransactionAwareDataSourceProxy
      * @see org.springframework.jdbc.datasource.DataSourceUtils
      * @see org.springframework.jdbc.datasource.DataSourceTransactionManager
@@ -176,7 +176,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
      * without explicit transaction demarcation will execute
      * non-transactionally.
      * <p>
-     * 
+     *
      * @see #setDataSource
      * @see #setTransactionFactoryProperties(java.util.Properties)
      * @see org.apache.ibatis.transaction.TransactionFactory
@@ -195,7 +195,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
     /**
      * Set properties to be passed to the TransactionFactory instance used by
      * this SqlSessionFactory.
-     * 
+     *
      * @see org.apache.ibatis.transaction.TransactionFactory#setProperties(java.util.Properties)
      * @see org.apache.ibatis.transaction.jdbc.JdbcTransactionFactory
      * @see org.apache.ibatis.transaction.managed.ManagedTransactionFactory
@@ -209,7 +209,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
      * in the iBATIS config file. This is used only as a placeholder name. The
      * default value is <code>SqlSessionFactoryBean.class.getSimpleName()</code>
      * .
-     * 
+     *
      * @param environment
      *            the environment name
      */
@@ -229,7 +229,7 @@ public class SqlSessionFactoryBean implements FactoryBean<SqlSessionFactory>, In
      * The default implementation uses the standard iBATIS
      * {@link XMLConfigBuilder} API to build a SqlSessionFactory instance based
      * on an Reader.
-     * 
+     *
      * @param configLocations
      *            the config files to load from
      * @param mapperLocations
