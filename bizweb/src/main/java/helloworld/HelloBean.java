@@ -38,6 +38,9 @@ package helloworld;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
+
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 
 @ManagedBean
@@ -50,4 +53,10 @@ public class HelloBean implements Serializable {
    
    public void setName(String name) { this.name = name; }
    
+   public static void main(String[] args) {
+	   Gson gson = new Gson(); 
+	   String json = "[\"first\",\"second\"]";
+	   String[] ss = gson.fromJson(json, String[].class);
+	   System.out.println(ss);
+   }
 }
