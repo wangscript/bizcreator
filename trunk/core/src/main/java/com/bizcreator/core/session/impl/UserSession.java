@@ -6,13 +6,14 @@ import java.util.Map;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.bizcreator.core.LoginContext;
+import com.bizcreator.core.dao.UserDao;
 import com.bizcreator.core.entity.User;
 import com.bizcreator.core.session.UserManager;
 
 @Transactional(readOnly = true)
 public class UserSession extends IBatis3Base implements UserManager {
 
-    public final static String NS = UserManager.class.getName();
+    public final static String NS = UserDao.class.getName();
 
     public String ns() {
         return NS;
