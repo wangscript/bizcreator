@@ -5,17 +5,14 @@
 
 package com.bizcreator.core.json;
 
-import net.sf.json.JSONObject;
-
 /**
  *
  * @author lgh
  */
 public interface Jsonizable {
 
+    public String toJson();
 
-    public JSONObject toJSON();
-
-    public Object fromJSON(JSONObject json);
+    public Object fromJson(String json);
     
 }
