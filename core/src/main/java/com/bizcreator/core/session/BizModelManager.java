@@ -5,10 +5,12 @@
 
 package com.bizcreator.core.session;
 
+import com.bizcreator.core.dao.BizModelDao;
+
 /**
  *
  * @author lgh
  */
-public interface BizModelManager {
+public interface BizModelManager extends BizModelDao {
 	public final static String NAME = "core.bizModelMgr";
 }

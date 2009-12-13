@@ -5,8 +5,7 @@
 
 package com.bizcreator.core.dao;
 
-import com.bizcreator.core.ibatis.Ibatis3DaoSupport;
-import java.util.Map;
+
 
 
 /**
