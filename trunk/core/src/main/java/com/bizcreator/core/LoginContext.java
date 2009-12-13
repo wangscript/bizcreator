@@ -10,7 +10,7 @@ import com.bizcreator.core.json.Jsonizable;
 import com.bizcreator.core.security.User;
 import java.util.HashMap;
 import java.util.Map;
-import net.sf.json.JSONObject;
+
 
 /**
  * 维护登录的环境信息
@@ -88,11 +88,11 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
         return attributes;
     }
 
-    public JSONObject toJSON() {
-        return JSONConverter.toJSON(this, new String[]{"domain", "clientId", "orgId", "dutyId"});
+    public String toJson() {
+        return JSONConverter.toJsonOfFields(this, new String[]{"domain", "clientId", "orgId", "dutyId"});
     }
 
-    public Object fromJSON(JSONObject json) {
+    public Object fromJson(String json) {
         return null;
     }
 

@@ -6,10 +6,12 @@
 package com.bizcreator.core.json;
 
 import com.bizcreator.util.ObjectUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.lang.reflect.Type;
+import java.text.DateFormat;
 import java.util.HashMap;
-import net.sf.json.JSONObject;
-import net.sf.json.JsonConfig;
-import net.sf.json.processors.JsDateJsonBeanProcessor;
+import java.util.Map;
 
 /**
  * JSON转换器
@@ -21,42 +23,47 @@ import net.sf.json.processors.JsDateJsonBeanProcessor;
  */
 public class JSONConverter {
 
-    public static JSONObject toJSON(Object obj, String[] fieldNames) {
-        JSONObject jsonObj = new JSONObject();
+    private final static Gson gson = new GsonBuilder().registerTypeAdapter(java.util.Date.class,
+            new UtilDateSerializer()).setDateFormat(DateFormat.LONG).create();
+
+    public static String toJsonOfFields(Object obj, String[] fieldNames) {
+        Map jsonObj = new HashMap();
         for (String fieldName : fieldNames) {
             jsonObj.put(fieldName, ObjectUtil.getFieldValue(obj, fieldName));
         }
-        return jsonObj;
+        return gson.toJson(obj);
     }
 
-    public static JSONObject toJSON( Object object ) {
-        return toJSON(object, new JsonConfig());
-    }
-
-    public static JSONObject toJSON( Object object, JsonConfig jsonConfig ) {
+    public static String toJSON( Object object ) {
         if (object instanceof Jsonizable) {
-            return ((Jsonizable)object).toJSON();
+            return ((Jsonizable)object).toJson();
         }
         else {
-            return JSONObject.fromObject(object, jsonConfig);
+            return gson.toJson(object);
+        }
+    }
+
+    public static String toJson( Object object,  Type typeOfSrc) {
+        if (object instanceof Jsonizable) {
+            return ((Jsonizable)object).toJson();
+        }
+        else {
+            return gson.toJson(object, typeOfSrc);
         }
     }
 
     public static void main(String[] args) {
         // json-lib默认不支持java.sql.Date的序列化，要序列化自己的类，实现一个BeanProcessor处理即可
-        JsDateJsonBeanProcessor beanProcessor = new JsDateJsonBeanProcessor();
+        
         java.sql.Date d = new java.sql.Date(System.currentTimeMillis());
 
         // 直接序列化
-        JsonConfig config = new JsonConfig();
-        JSONObject json = beanProcessor.processBean(d, config);
-        System.out.println(json.toString());
+        
 
         // 序列化含java.sql.Date作为属性值的bean
         HashMap m = new HashMap();
         m.put("date", d);
-        config.registerJsonBeanProcessor(java.sql.Date.class, beanProcessor);
-        json = JSONObject.fromObject(m, config);
-        System.out.println(json.toString());
+        
+        System.out.println(gson.toJson(m));
     }
 }

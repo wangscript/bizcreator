@@ -30,17 +30,18 @@ import com.bizcreator.core.ServiceFactory;
 import com.bizcreator.core.SessionContextImpl;
 import com.bizcreator.core.entity.LoginSession;
 import com.bizcreator.core.json.JSONConverter;
+import com.bizcreator.core.json.UtilDateSerializer;
 import com.bizcreator.core.security.User;
 import com.bizcreator.core.session.ServiceBase;
 import com.bizcreator.util.ObjectUtil;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.StringWriter;
 import java.security.Principal;
+import java.text.DateFormat;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
-import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
-import net.sf.json.util.JSONUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.hibernate.HibernateException;
@@ -167,6 +168,9 @@ public class HttpSessionServer
         processRequest(request, response);
     }
 
+    private final static Gson gson = new GsonBuilder().registerTypeAdapter(java.util.Date.class,
+            new UtilDateSerializer()).setDateFormat(DateFormat.LONG).create();
+
     /**
      * 根据收到的请求，构造调用对象
      * @param request
@@ -201,6 +205,7 @@ public class HttpSessionServer
             System.out.println(">>>invocation: " + serviceName + ", " + methodName + ", " + argStr + ", " + typeStr);
 
             //将参数还原为JSON对象
+
             JSONArray jaArgs = JSONArray.fromObject(argStr);
             Object[] args = new Object[jaArgs.size()];
             for (int i = 0; i < jaArgs.size(); i++) {
