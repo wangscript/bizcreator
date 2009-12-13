@@ -5,9 +5,12 @@
 
 package com.bizcreator.core;
 
+import com.bizcreator.core.json.BizJsonObject;
 import com.bizcreator.core.json.JSONConverter;
 import com.bizcreator.core.json.Jsonizable;
 import com.bizcreator.core.security.User;
+import com.google.gson.JsonObject;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -88,12 +91,23 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
         return attributes;
     }
 
-    public String toJson() {
-        return JSONConverter.toJsonOfFields(this, new String[]{"domain", "clientId", "orgId", "dutyId"});
+    public JsonObject toJson() {
+    	JsonObject json = new JsonObject();
+    	json.addProperty("domain", this.domain);
+    	json.addProperty("clientId", this.clientId);
+    	json.addProperty("orgId", this.orgId);
+    	json.addProperty("dutyId", this.dutyId);
+    	return json;
     }
 
-    public Object fromJson(String json) {
-        return null;
+    public Object fromJson(BizJsonObject json) {
+    	
+    	this.domain = json.getAsString("domain");
+    	this.clientId = json.getAsString("clientId");
+    	this.orgId = json.getAsString("orgId");
+    	this.dutyId = json.getAsString("dutyId");
+    	
+        return this;
     }
 
 }

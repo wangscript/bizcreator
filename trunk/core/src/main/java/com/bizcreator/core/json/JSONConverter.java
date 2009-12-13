@@ -8,6 +8,8 @@ package com.bizcreator.core.json;
 import com.bizcreator.util.ObjectUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.util.HashMap;
@@ -23,33 +25,55 @@ import java.util.Map;
  */
 public class JSONConverter {
 
-    private final static Gson gson = new GsonBuilder().registerTypeAdapter(java.util.Date.class,
-            new UtilDateSerializer()).setDateFormat(DateFormat.LONG).create();
+    private static Gson gson = null;
 
-    public static String toJsonOfFields(Object obj, String[] fieldNames) {
-        Map jsonObj = new HashMap();
+    public static Gson gson() {
+    	if (gson == null) {
+    		GsonBuilder gb = new GsonBuilder();
+    		gb.registerTypeAdapter(java.util.Date.class, new UtilDateSerializer());
+    		gb.registerTypeAdapter(java.util.Date.class, new UtilDateDeserializer());
+    		gb.setDateFormat(DateFormat.LONG);
+    		gson = gb.create();
+    	}
+    	return gson;
+    }
+    
+    public static JsonElement toJsonTreeOfFields(Object obj, String[] fieldNames) {
+    	Map jsonObj = new HashMap();
         for (String fieldName : fieldNames) {
             jsonObj.put(fieldName, ObjectUtil.getFieldValue(obj, fieldName));
         }
-        return gson.toJson(obj);
+        return gson().toJsonTree(jsonObj);
+    }
+    
+    public static String toJsonOfFields(Object obj, String[] fieldNames) {
+        return gson().toJson(toJsonTreeOfFields(obj, fieldNames));
     }
 
-    public static String toJSON( Object object ) {
-        if (object instanceof Jsonizable) {
+    public static JsonElement toJsonTree(Object object) {
+    	if (object instanceof Jsonizable) {
             return ((Jsonizable)object).toJson();
         }
         else {
-            return gson.toJson(object);
+            return gson().toJsonTree(object);
         }
     }
+    
+    public static String toJson(Object object ) {
+    	return gson().toJson(toJsonTree(object));
+    }
 
-    public static String toJson( Object object,  Type typeOfSrc) {
-        if (object instanceof Jsonizable) {
+    public static JsonElement toJsonTree(Object object, Type typeOfSrc) {
+    	if (object instanceof Jsonizable) {
             return ((Jsonizable)object).toJson();
         }
         else {
-            return gson.toJson(object, typeOfSrc);
+            return gson().toJsonTree(object, typeOfSrc);
         }
+    }
+    
+    public static String toJson(Object object, Type typeOfSrc) {
+    	return gson().toJson(toJsonTree(object, typeOfSrc));
     }
 
     public static void main(String[] args) {

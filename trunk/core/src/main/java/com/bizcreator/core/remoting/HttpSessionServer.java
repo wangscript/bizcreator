@@ -30,12 +30,15 @@ import com.bizcreator.core.ServiceFactory;
 import com.bizcreator.core.SessionContextImpl;
 import com.bizcreator.core.entity.LoginSession;
 import com.bizcreator.core.json.JSONConverter;
+import com.bizcreator.core.json.Jsonizable;
 import com.bizcreator.core.json.UtilDateSerializer;
 import com.bizcreator.core.security.User;
 import com.bizcreator.core.session.ServiceBase;
 import com.bizcreator.util.ObjectUtil;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonObject;
+
 import java.io.StringWriter;
 import java.security.Principal;
 import java.text.DateFormat;
@@ -204,20 +207,23 @@ public class HttpSessionServer
 
             System.out.println(">>>invocation: " + serviceName + ", " + methodName + ", " + argStr + ", " + typeStr);
 
-            //将参数还原为JSON对象
-
+            //将取得参数还原为JSON对象
+            /*
             JSONArray jaArgs = JSONArray.fromObject(argStr);
             Object[] args = new Object[jaArgs.size()];
             for (int i = 0; i < jaArgs.size(); i++) {
                 args[i] = jaArgs.get(i);
-            }
+            }*/
+            String[] args = JSONConverter.gson().fromJson(argStr, String[].class);
 
             //将类型还原为JSON对象
+            /*
             JSONArray jaTypes = JSONArray.fromObject(typeStr);
             String[] types = new String[jaTypes.size()];
             for (int i = 0; i < jaTypes.size(); i++) {
                 types[i] = jaTypes.get(i).toString();
-            }
+            }*/
+            String[] types = JSONConverter.gson().fromJson(typeStr, String[].class);
 
             //将types转换为实际参数类型
             Class[] paramTypes = ObjectUtil.getActParamTypes(types);
@@ -225,7 +231,7 @@ public class HttpSessionServer
             //将参数args转换为实际参数
             Object[] actArgs = new Object[args.length];
             for (int i = 0; i < args.length; i++) {
-                actArgs[i] = ObjectUtil.getActParamValue(args[i].toString(), paramTypes[i]);
+                actArgs[i] = ObjectUtil.getActParamValue(args[i], paramTypes[i]);
             }
 
             //构造一个invocation
@@ -496,25 +502,27 @@ public class HttpSessionServer
             oos.writeObject(new ServiceResponse(result));
             oos.close();
         } else {
-            JSONObject jsonResult = new JSONObject();
+            //JSONObject jsonResult = new JSONObject();
+        	JsonObject jsonResult = new JsonObject();
             if (result instanceof Throwable) {
                 Throwable ex = (Throwable) result;
-                jsonResult.put(ERROR, ex.getMessage());
+                jsonResult.addProperty(ERROR, ex.getMessage());
                 StringWriter sw = new StringWriter();
                 ex.printStackTrace(new PrintWriter(sw));
-                jsonResult.put(STACK_TRACE, sw.toString());
-            } else if (result != null && ObjectUtil.isCollection(result)) {
+                jsonResult.addProperty(STACK_TRACE, sw.toString());
+            } /*else if (result != null && ObjectUtil.isCollection(result)) {
                 jsonResult.put(VALUE, JSONArray.fromObject(result));
             } else if (result instanceof String && JSONUtils.mayBeJSON((String) result)) {
                 jsonResult.put(VALUE, JSONObject.fromObject((String) result));
             } else if (JSONUtils.isNumber(result) || JSONUtils.isBoolean(result) || JSONUtils.isString(result)) {
                 jsonResult.put(VALUE, result);
-            } else {
+            }*/ 
+            else {
                 System.out.println(">>>result class: " + result.getClass());
-                jsonResult.put(VALUE, JSONConverter.toJSON(result));
+                jsonResult.add(VALUE, JSONConverter.toJsonTree(result));
             }
             response.setCharacterEncoding(RESP_ENCODING);
-            response.getWriter().write(jsonResult.toString());
+            response.getWriter().write(JSONConverter.gson().toJson(jsonResult));
         }
     }
 

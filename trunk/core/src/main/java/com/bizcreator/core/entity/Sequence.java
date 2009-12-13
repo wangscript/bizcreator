@@ -14,9 +14,11 @@ import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
 
 import com.bizcreator.core.annotation.FieldInfo;
+import com.bizcreator.core.json.BizJsonObject;
 import com.bizcreator.core.json.JSONConverter;
 import com.bizcreator.core.json.Jsonizable;
-import net.sf.json.JSONObject;
+import com.google.gson.JsonObject;
+
 import org.hibernate.validator.NotEmpty;
 import org.hibernate.validator.NotNull;
 
@@ -108,12 +110,25 @@ public class Sequence extends BasicEntity implements Serializable, Jsonizable {
         return domain + "." + name;
     }
 
-    public JSONObject toJSON() {
-        return JSONConverter.toJSON(this, new String[]{"id", "name", "domain", "nextValue", "description"});
+    public JsonObject toJson() {
+    	JsonObject json = super.toJson();
+    	json.addProperty("id", this.id);
+    	json.addProperty("name", this.name);
+    	json.addProperty("nextValue", this.nextValue);
+    	json.addProperty("domain", this.domain);
+    	json.addProperty("description", this.description);
+    	return json;
     }
 
-    public Object fromJSON(JSONObject json) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public Object fromJson(BizJsonObject json) {
+    	super.fromJson(json);
+    	this.id = json.getAsString("id");
+    	this.name = json.getAsString("name");
+    	this.domain = json.getAsString("domain");
+    	this.nextValue = json.getAsInt("nextValue");
+    	this.description = json.getAsString("description");
+    	return this;
+        
     }
     
     public static void init() {

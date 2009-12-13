@@ -13,9 +13,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import net.sf.json.JSONObject;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+
+import com.bizcreator.core.json.JSONConverter;
 
 
 
@@ -725,8 +726,8 @@ public class ObjectUtil {
             }
         } else {
             try {
-                JSONObject jsonObj = JSONObject.fromObject(s);
-                Object obj = JSONObject.toBean(jsonObj, paramType);
+                //JSONObject jsonObj = JSONObject.fromObject(s);
+                Object obj = JSONConverter.gson().fromJson(s, paramType);
                 return obj;
             } catch (Exception ex) {
                 ex.printStackTrace();
