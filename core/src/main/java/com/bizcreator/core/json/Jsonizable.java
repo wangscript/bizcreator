@@ -5,14 +5,16 @@
 
 package com.bizcreator.core.json;
 
+import com.google.gson.JsonObject;
+
 /**
  *
  * @author lgh
  */
 public interface Jsonizable {
 
-    public String toJson();
+    public JsonObject toJson();
 
-    public Object fromJson(String json);
+    public Object fromJson(BizJsonObject json);
     
 }

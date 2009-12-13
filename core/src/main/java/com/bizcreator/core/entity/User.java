@@ -9,7 +9,9 @@ import java.io.Serializable;
 
 import com.bizcreator.core.annotation.FieldInfo;
 import com.bizcreator.core.entity.BasicEntity;
+import com.bizcreator.core.json.BizJsonObject;
 import com.bizcreator.core.json.Jsonizable;
+import com.google.gson.JsonObject;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -18,7 +20,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
-import net.sf.json.JSONObject;
+
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -141,31 +143,31 @@ public class User extends BasicEntity implements com.bizcreator.core.security.Us
         return name;
     }
 
-	public Object fromJSON(JSONObject json) {
+	public Object fromJson(BizJsonObject json) {
 		
-		super.fromJSON(json);
+		super.fromJson(json);
 		
-		this.code = json.getString("code");
-		this.name = json.getString("name");
-		this.email = json.getString("email");
-		this.phone = json.getString("phone");
-		this.mobile = json.getString("mobile");
-		this.qq = json.getString("qq");
-		this.msn = json.getString("msn");
+		this.code = json.getAsString("code");
+		this.name = json.getAsString("name");
+		this.email = json.getAsString("email");
+		this.phone = json.getAsString("phone");
+		this.mobile = json.getAsString("mobile");
+		this.qq = json.getAsString("qq");
+		this.msn = json.getAsString("msn");
 		
 		return this;
 	}
 
-	public JSONObject toJSON() {
-		JSONObject json = super.toJSON();
+	public JsonObject toJson() {
+		JsonObject json = super.toJson();
 		
-		json.put("code", this.code);
-		json.put("name", this.name);
-		json.put("email", this.email);
-		json.put("phone", this.phone);
-		json.put("mobile", this.mobile);
-		json.put("qq", this.qq);
-		json.put("msn", this.msn);
+		json.addProperty("code", this.code);
+		json.addProperty("name", this.name);
+		json.addProperty("email", this.email);
+		json.addProperty("phone", this.phone);
+		json.addProperty("mobile", this.mobile);
+		json.addProperty("qq", this.qq);
+		json.addProperty("msn", this.msn);
 		
 		return json;
 	}

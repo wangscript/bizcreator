@@ -14,10 +14,8 @@ package com.bizcreator.core.json;
 
  public class UtilDateSerializer implements JsonSerializer<java.util.Date> {
 
-     @Override
      public JsonElement serialize(java.util.Date src, Type typeOfSrc,
              JsonSerializationContext context) {
          return new JsonPrimitive(src.getTime());
      }
-
  }  

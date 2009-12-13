@@ -4,12 +4,13 @@ import com.bizcreator.core.QueryFactory;
 import javax.persistence.MappedSuperclass;
 
 import com.bizcreator.core.annotation.FieldInfo;
+import com.bizcreator.core.json.BizJsonObject;
+import com.bizcreator.core.json.JSONConverter;
 import com.bizcreator.core.json.Jsonizable;
+import com.google.gson.JsonObject;
 
 import java.util.Date;
 import javax.persistence.Column;
-
-import net.sf.json.JSONObject;
 
 @MappedSuperclass
 public class BasicEntity extends AtomicEntity implements java.io.Serializable, Jsonizable {
@@ -127,29 +128,36 @@ public class BasicEntity extends AtomicEntity implements java.io.Serializable, J
 		this.updatedBy = updatedBy;
 	}
     
-	public Object fromJSON(JSONObject json) {
+	public Object fromJson(BizJsonObject json) {
 		
-		this.id = json.getString("id");
-		this.clientId = json.getString("clientId");
-		this.orgId = json.getString("orgId");
-		this.isActive = json.getBoolean("isActive");
-		//this.created = json.getDate("created");
-		this.createdBy = json.getString("createdBy");
-		//updated = json.getDate("updated");
-		this.updatedBy = json.getString("updatedBy");
+		this.id = json.getAsString("id");
+		this.clientId = json.getAsString("clientId");
+		this.orgId = json.getAsString("orgId");
+		this.isActive = json.getAsBoolean("isActive");
+		this.created = json.getAsDate("created");
+		this.createdBy = json.getAsString("createdBy");
+		this.updated = json.getAsDate("updated");
+		this.updatedBy = json.getAsString("updatedBy");
+		
 		return this;
 	}
 
-	public JSONObject toJSON() {
-		JSONObject json = new JSONObject();
-		json.put("id", this.id);
-		json.put("clientId", this.clientId);
-		json.put("orgId", this.orgId);
-		json.put("isActive", this.isActive);
-		json.put("created", this.created);
-		json.put("createdBy", this.createdBy);
-		json.put("updated", this.updated);
-		json.put("updatedBy", this.updatedBy);
+	public JsonObject toJson() {
+		
+		JsonObject json = new JsonObject();
+		
+		json.addProperty("id", this.id);
+		json.addProperty("clientId", this.clientId);
+		json.addProperty("orgId", this.orgId);
+		json.addProperty("isActive", this.isActive);
+		if (this.created != null) {
+			json.addProperty("created", this.created.getTime());
+		}
+		json.addProperty("createdBy", this.createdBy);
+		if (this.updated != null) {
+			json.addProperty("updated", this.updated.getTime());
+		}
+		json.addProperty("updatedBy", this.updatedBy);
 		
 		return json;
 	}

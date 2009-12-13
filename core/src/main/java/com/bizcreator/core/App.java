@@ -27,6 +27,6 @@ public class App {
         UserManager userMgr = (UserManager) ac.getBean(UserManager.NAME);
         User user = userMgr.findById("000000000001@rhino");
         
-        System.out.println(user.toJSON());
+        System.out.println(user.toJson());
     }
 }
