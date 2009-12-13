@@ -176,7 +176,7 @@ Ext.lib.Sjax = function() {
 
     // private
     function getResponseObject(o) {
-        
+
         var httpStatus, responseObject = null;
 
         try {
@@ -309,7 +309,7 @@ Ext.lib.Sjax = function() {
         POST = 'POST',
         GET = 'GET',
         WINDOW = window;
-        
+
     function doFormUpload(o, ps, url){
         var id = Ext.id(),
         doc = document,
