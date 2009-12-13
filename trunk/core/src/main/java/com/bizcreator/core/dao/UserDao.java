@@ -9,6 +9,6 @@ package com.bizcreator.core.dao;
  *
  * @author lgh
  */
-public class BizFieldDao {
+public interface UserDao extends BasicDao {
 
 }
