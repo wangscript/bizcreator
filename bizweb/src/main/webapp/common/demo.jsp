@@ -20,6 +20,9 @@
         });*/
         YUI().use('yui-ext', 'io-rmi', function(Y){
             var u = Y.rmi("core.userMgr", 'findById',['000000000001@rhino']);
+            Y.rmi("core.userMgr", 'findById',['000000000001@rhino'], {success: function(v) {
+                Y.log("id: " + v.id);
+            }});
             //Y.log(">>>result: " + u);
         });
     </script>

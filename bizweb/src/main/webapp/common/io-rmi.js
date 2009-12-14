@@ -154,33 +154,35 @@ Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", false); // returns {foo: "1", bar: ["2"
                 o.disableCaching = options.versionKey ? false : true;
             }
             o.url = url;
-            
-            //4. 同步调用并处理返回结果
+
+            //4 将参数o.params编码成get参数(如：service=core.userMgr&mn=findById&args=[]&types=[]等)
+            var p = o.params,
+                m = o.method || "POST",
+                data = typeof p == 'object' ? urlEncode(p) : p;
+
+            if (o.method && o.method.toUpperCase() == "GET") {
+                url += (/\?/.test(url) ? '&' : '?') + data;
+                data = '';
+            }
+
+            //5 设置头部信息
+            if (data && m === 'POST') {
+                _setHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
+            }
+
+            options = options || {};
+
+            //6. 同步调用并处理返回结果
             if (!options || !options.success) {
-                //4.1 创建http请求
+                //6.1 创建http请求
                 var xhr = w.XMLHttpRequest ? new XMLHttpRequest() : new ActiveXObject('Microsoft.XMLHTTP');
 
-                //4.2 将参数o.params编码成get参数(如：service=core.userMgr&mn=findById&args=[]&types=[]等)
-                var p = o.params, 
-                    m = o.method || "POST",
-                    data = typeof p == 'object' ? urlEncode(p) : p;
-                
-                if (o.method && o.method.toUpperCase() == "GET") {
-                    url += (/\?/.test(url) ? '&' : '?') + data;
-                    data = '';
-                }
-
-                //4.3 打开url链接
+                //6.2 打开url链接
                 xhr.open(m, url, false);
 
-                //4.4 设置头部信息
-                if (data && m === 'POST') {
-                    _setHeader('Content-Type', 'application/x-www-form-urlencoded; charset=UTF-8');
-   		}
-                options = options || {};
                 _setHeaders(xhr, options.headers || {});
 
-                //4.5 发送数据
+                //6.3 发送数据
                 xhr.send(data);
                 if (xhr.status == 200) {
                     var result = JSON.parse(xhr.responseText);
@@ -192,7 +194,23 @@ Ext.urlDecode("foo=1&bar=2&bar=3&bar=4", false); // returns {foo: "1", bar: ["2"
             }
             //5. 异步调用
             else {
-
+                Y.io(url, {
+                    method : m,
+                    data : data,
+                    headers: options.headers,
+                    on : {
+                        success: function(id, o, args) {
+                            var result = JSON.parse(o.responseText),
+                                v = result.value;
+                             if (options.success) {
+                                 options.success(v);
+                             }
+                        },
+                        failure : function(id, o, args) {
+                            Y.log("status: " + o.status);
+                        }
+                    }
+                });
             }
         }
     }, true);
