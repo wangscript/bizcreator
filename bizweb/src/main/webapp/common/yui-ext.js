@@ -1,4 +1,34 @@
 YUI.add('yui-ext', function(Y) {
+        var L = Y.Lang;
+
+        L.getTypeName = function(obj) {
+            if (L.isString(obj)) return 'String';
+            else if (L.isNumber(obj) && obj.toString().indexOf(".") == -1) return 'Integer';
+            else if (L.isNumber(obj) && obj.toString().indexOf(".") > -1) return 'Float';
+            else if (L.isBoolean(obj)) return 'Boolean';
+            else if (L.isDate(obj)) return 'Date';
+            else if (L.isArray(obj)) return 'Array';
+            else if (L.isFunction(obj)) return 'Function';
+            else if (L.isObject(obj)) {
+                if (obj.__TYPE__) {
+                    //obj.__TYPE__是服务器端对应的类型，如：com.kingdee.youshang.gl.Account
+                    return obj.__TYPE__
+                }
+                else {
+                    return 'Object';
+                }
+            }
+            else return 'undefined';
+        }
+
+        L.isEmpty = function(v, allowBlank){
+            return v === null || v === undefined || ((L.isArray(v) && !v.length)) || (!allowBlank ? v === '' : false);
+        }
+
+        L.isPrimitive = function(v) {
+            return L.isString(v) || L.isNumber(v) || L.isBoolean(v);
+        }
+
 	Y.mix(Y.Node.prototype, {
 		/**
 	     * Sets up event handlers to call the passed functions when the mouse is moved into and out of the Element.
