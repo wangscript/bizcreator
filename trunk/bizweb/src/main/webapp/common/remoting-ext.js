@@ -1,7 +1,9 @@
 
-Ext.namespace('BIZ', 'BIZ.wui', 'BIZ.base');
+//Ext.namespace('BIZ', 'BIZ.wui', 'BIZ.base');
 
 Env = {contextPath: '/bizweb', invokePath: '/bizweb/BsfInvokerServlet'};
+
+var BIZ = {};
 
 BIZ.util = {
     isString: function(o) {
@@ -78,24 +80,6 @@ BIZ.util = {
     }
 };
 
-Function.prototype.bind = function(obj) {
-    var method = this;
-
-    var arrArgExt = [];
-    for (var i = 1; i<arguments.length; i++) {
-        arrArgExt.push(arguments[i]);
-    }
-
-    var temp = function(){
-        arrArgfun = [];
-        for (var i=0; i<arguments.length; i++) {
-            arrArgFun.push(arguments[i]);
-        }
-        arrArgFun = arrArgFun.concat(arrArgExt);
-        return method.apply(obj, arrArgFun);
-    }
-    return temp;
-};
 
 Ext.lib.Sjax = function() {
     var activeX = ['MSXML2.XMLHTTP.3.0',
