@@ -56,7 +56,7 @@ public class UserBean extends User {
             sessionMap.put(RhSessionContext.ORG_ID, loginCtx.getOrgId());
             sessionMap.put(RhSessionContext.DUTY_ID, loginCtx.getDutyId());
             sessionMap.putAll(loginCtx.getAttributes());
-            return "UserList";
+            return "Main";
         }
         return null;
     }
