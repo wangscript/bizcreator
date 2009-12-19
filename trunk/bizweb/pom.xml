@@ -45,17 +45,17 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>3.8.1</version>
+      <version>4.7</version>
       <scope>test</scope>
     </dependency>
 
     <!-- for jbpm 4.2-->
-        <dependency>
+        <!--dependency>
             <groupId>org.jbpm</groupId>
             <artifactId>jbpm</artifactId>
             <version>4.2</version>
-        </dependency>
-        <dependency>
+        </dependency-->
+        <!--dependency>
             <groupId>javassist</groupId>
             <artifactId>javassist</artifactId>
             <version>3.11.0.GA</version>
@@ -100,7 +100,7 @@
             <groupId>org.slf4j</groupId>
               <artifactId>slf4j-jdk14</artifactId>
                <version>1.5.10</version>
-        </dependency> <!-- for jbpm end -->
+        </dependency--> <!-- for jbpm end -->
   </dependencies>
   
   <build>
@@ -133,8 +133,9 @@
     <finalName>bizweb</finalName>
   </build>
     <properties>
-        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <netbeans.hint.deploy.server>Tomcat60</netbeans.hint.deploy.server>
     </properties>
 </project>
+
 
