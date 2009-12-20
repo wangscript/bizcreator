@@ -41,7 +41,7 @@
         <property name="sessionFactory" ref="core.ibatisSessionFactory" />
     </bean-->
 	
-    <bean id="core.userMgr" class="com.bizcreator.core.session.impl.UserSession" lazy-init="true">
+    <bean id="core.userMgr" class="com.bizcreator.core.session.ibatis.UserService" lazy-init="true">
         <property name="sqlSessionFactory" ref="sqlSessionFactory" />
     </bean>
     
