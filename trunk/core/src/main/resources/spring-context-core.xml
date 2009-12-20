@@ -52,4 +52,8 @@
     <bean id="statusManager" class="com.bizcreator.core.session.impl.StatusSession">
         <property name="serviceBase" ref="rootService"/>
     </bean>
+
+    <bean id="core.userMgr" class="com.bizcreator.core.session.impl.UserSession">
+        <property name="serviceBase" ref="rootService"/>
+    </bean>
 </beans>
