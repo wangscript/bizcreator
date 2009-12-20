@@ -2,6 +2,7 @@ package com.bizcreator.core;
 
 import com.bizcreator.core.entity.User;
 import com.bizcreator.core.session.BizModelManager;
+import com.bizcreator.core.session.IbatisUserMgr;
 import com.bizcreator.core.session.UserManager;
 import com.bizcreator.core.session.impl.BizModelSession;
 import java.util.Map;
@@ -24,7 +25,7 @@ public class App {
         //查询
         Map map = dao.findById("10000");
         
-        UserManager userMgr = (UserManager) ac.getBean(UserManager.NAME);
+        IbatisUserMgr userMgr = (IbatisUserMgr) ac.getBean(IbatisUserMgr.NAME);
         User user = userMgr.findById("000000000001@rhino");
         
         System.out.println(user.toJson());

@@ -2,13 +2,11 @@
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.bizcreator.core.entity;
 
 import java.io.Serializable;
 
 import com.bizcreator.core.annotation.FieldInfo;
-import com.bizcreator.core.entity.BasicEntity;
 import com.bizcreator.core.json.BizJsonObject;
 import com.bizcreator.core.json.Jsonizable;
 import com.google.gson.JsonObject;
@@ -30,31 +28,25 @@ import org.hibernate.validator.NotEmpty;
  *
  * @author lgh
  */
-//@Entity
-//@Table(name = "biz_user")
+@Entity
+@Table(name = "biz_user")
 public class User extends BasicEntity implements com.bizcreator.core.security.User, Serializable, Jsonizable {
 
     @FieldInfo(name = "编码")
     protected String code;
-
     @FieldInfo(name = "EMail")
     protected String email;
-    
     @FieldInfo(name = "座机")
     protected String phone;
-
     @FieldInfo(name = "手机")
     protected String mobile;
-
     @FieldInfo(name = "QQ")
     protected String qq;
-
     @FieldInfo(name = "MSN")
     protected String msn;
-
     @FieldInfo(name = "密码")
     protected String password;
-    
+
     @Id
     @GeneratedValue(generator = "domainIdGen")
     @GenericGenerator(name = "domainIdGen", strategy = "com.bizcreator.core.hibernate.DomainIdentifierGenerator",
@@ -143,33 +135,34 @@ public class User extends BasicEntity implements com.bizcreator.core.security.Us
         return name;
     }
 
-	public Object fromJson(BizJsonObject json) {
-		
-		super.fromJson(json);
-		
-		this.code = json.getAsString("code");
-		this.name = json.getAsString("name");
-		this.email = json.getAsString("email");
-		this.phone = json.getAsString("phone");
-		this.mobile = json.getAsString("mobile");
-		this.qq = json.getAsString("qq");
-		this.msn = json.getAsString("msn");
-		
-		return this;
-	}
+    @Override
+    public Object fromJson(BizJsonObject json) {
 
-	public JsonObject toJson() {
-		JsonObject json = super.toJson();
-		
-		json.addProperty("code", this.code);
-		json.addProperty("name", this.name);
-		json.addProperty("email", this.email);
-		json.addProperty("phone", this.phone);
-		json.addProperty("mobile", this.mobile);
-		json.addProperty("qq", this.qq);
-		json.addProperty("msn", this.msn);
-		
-		return json;
-	}
+        super.fromJson(json);
 
+        this.code = json.getAsString("code");
+        this.name = json.getAsString("name");
+        this.email = json.getAsString("email");
+        this.phone = json.getAsString("phone");
+        this.mobile = json.getAsString("mobile");
+        this.qq = json.getAsString("qq");
+        this.msn = json.getAsString("msn");
+
+        return this;
+    }
+
+    @Override
+    public JsonObject toJson() {
+        JsonObject json = super.toJson();
+
+        json.addProperty("code", this.code);
+        json.addProperty("name", this.name);
+        json.addProperty("email", this.email);
+        json.addProperty("phone", this.phone);
+        json.addProperty("mobile", this.mobile);
+        json.addProperty("qq", this.qq);
+        json.addProperty("msn", this.msn);
+
+        return json;
+    }
 }
