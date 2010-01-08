@@ -21,7 +21,7 @@ public interface ChangeEventSource {
   public static final int Update = 40;
 
   /**
-   * Adds a change listener to the model.
+   * Adds a change listener to the model.lgh
    *
    * @param listener the listener to add
    */
