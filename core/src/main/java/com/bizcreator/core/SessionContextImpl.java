@@ -1,6 +1,6 @@
 package com.bizcreator.core;
 
-import com.bizcreator.core.RhSessionContext;
+import com.bizcreator.core.entity.AtomicEntity;
 import com.bizcreator.core.security.User;
 
 import javax.ejb.SessionContext;
@@ -82,6 +82,16 @@ public class SessionContextImpl implements RhSessionContext {
 
         //return "lgh";
         //return ctx.getCallerPrincipal().getName();
+    }
+
+    public AtomicEntity getUserOrg() {
+        AtomicEntity org = (AtomicEntity) getSession().getAttribute(USER_ORG);
+        return org;
+    }
+
+    public AtomicEntity getUserPerson() {
+        AtomicEntity person = (AtomicEntity) getSession().getAttribute(USER_PERSON);
+        return person;
     }
 
     /*

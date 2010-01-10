@@ -1,5 +1,6 @@
 package com.bizcreator.core;
 
+import com.bizcreator.core.entity.AtomicEntity;
 import com.bizcreator.core.security.User;
 import javax.servlet.http.HttpSession;
 
@@ -15,7 +16,10 @@ public interface RhSessionContext //extends SessionContext
 	
 	public final static String DUTY_ID = "dutyId";
 	public final static String RESPONSIBILITY = "responsibility";
-	
+
+        public final static String USER_ORG = "userOrg";
+        public final static String USER_PERSON = "userPerson";
+        
 	public HttpSession getSession();
 	
 	public String getDutyId();
@@ -25,7 +29,11 @@ public interface RhSessionContext //extends SessionContext
 	public String  getClientId();
 	
 	public String getOrgId();
-    
+
+        public AtomicEntity getUserOrg();
+
+        public AtomicEntity getUserPerson();
+        
     public User getUser();
 	
     /**
