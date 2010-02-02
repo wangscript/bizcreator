@@ -25,26 +25,26 @@ public class Lov extends BasicEntity implements Serializable {
     private static final long serialVersionUID = -1283578379634990649L;
     
     @FieldInfo(name="ID", width=100, isPk=true)
-	protected String id;
-    
-	@FieldInfo(name="说明", description="说明")
-	protected String description;
-	
-	@FieldInfo(name="项目", description="值列表项目细节", isColumn=false)
-	protected List<LovDetail> details;
-	
+    protected String id;
+
+    @FieldInfo(name="说明", description="说明")
+    protected String description;
+
+    @FieldInfo(name="项目", description="值列表项目细节", isColumn=false)
+    protected List<LovDetail> details;
+
     public Lov() {}
     
     public Lov(String id, String name) {
         super(id, name);
     }
     
-	@Id
-	@Column(name = "id", length = 30)
+    @Id
+    @Column(name = "id", length = 30)
     @Override
-	public String getId() {
-		return id;
-	}
+    public String getId() {
+            return id;
+    }
     
     @Override
     public void setId(String id) {
