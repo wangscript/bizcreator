@@ -20,10 +20,10 @@ import org.hibernate.validator.NotEmpty;
 public class CodeName extends BeanModel implements Serializable {
     
     @FieldInfo(name="编码")
-    public String code;
+    protected String code;
     
     @FieldInfo(name="名称")
-    public String name;
+    protected String name;
 
     public CodeName(){}
     
@@ -76,10 +76,7 @@ public class CodeName extends BeanModel implements Serializable {
         if (this.code == null || !this.code.equals(other.code)) {
             return false;
         }
-        /*
-        if (this.name == null || !this.name.equals(other.name)) {
-            return false;
-        }*/
+       
         return true;
     }
 
