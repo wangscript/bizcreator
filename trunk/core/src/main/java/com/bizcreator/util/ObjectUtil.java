@@ -69,7 +69,7 @@ public class ObjectUtil {
                     cls = m.getReturnType();
                 }
                 catch (NoSuchMethodException ne) {
-                    ne.printStackTrace();
+                    System.out.println("【ObjectUtil.getGetter】没有这个方法：" + ne.getMessage());
                 }
             } catch (SecurityException ex) {
                 ex.printStackTrace();
