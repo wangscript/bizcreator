@@ -41,6 +41,7 @@
     </filter-mapping-->
     
     <!-- jsf config -->
+	<!--
 	<context-param>
         <param-name>javax.faces.STATE_SAVING_METHOD</param-name>
         <param-value>server</param-value>
@@ -71,33 +72,18 @@
         <param-value>/WEB-INF/basicajax-taglib.xml</param-value>
     </context-param>
     
-    <!--context-param>
-        <param-name>javax.faces.FACELETS_LIBRARIES</param-name>
-        <param-value>/WEB-INF/demo.taglib.xml</param-value>
-    </context-param-->
-
-    <!-- Faces Servlet -->
     <servlet>
         <servlet-name>Faces Servlet</servlet-name>
         <servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
 
-
-    <!-- Faces Servlet Mapping -->
-    <!-- 
-
-         This mapping identifies a jsp page as having JSF content.  If a
-         request comes to the server for foo.faces, the container will
-         send the request to the FacesServlet, which will expect a
-         corresponding foo.jsp page to exist containing the content.
-
-    -->
     <servlet-mapping>
         <servlet-name>Faces Servlet</servlet-name>
         <url-pattern>/faces/*</url-pattern>
         <url-pattern>*.jsf</url-pattern>
     </servlet-mapping>
+    -->
     
     <!-- Bsf remoting invoker -->
     <servlet>
