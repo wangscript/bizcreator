@@ -411,6 +411,31 @@ public class BizEntity extends BasicEntity implements Serializable, Jsonizable {
         return this;
     }
 
+    public BizEntity fromRs(ResultSet rs) throws SQLException {
+    	this.code = rs.getString("code");
+		this.name = rs.getString("name");
+		this.description = rs.getString("description");
+		this.help_info = rs.getString("help_info");
+		this.table_name = rs.getString("table_name");
+		this.entity_class = rs.getString("entity_class");
+        
+		
+        //todo
+		this.load_seq = rs.getInt("load_seq");
+        this.access_level = new CodeName(rs.getString("access_level"), rs.getString("access_level_name"));
+        this.doc_type = new CodeName(rs.getString("doc_type"), rs.getString("doc_type_name"));
+        this.primary_field = rs.getString("primary_field");
+        this.primary_column = rs.getString("primary_column");
+        this.related_field = rs.getString("related_field");
+        this.related_column = rs.getString("related_column");
+        this.level = rs.getInt("level");
+        this.associate_type = new CodeName(rs.getString("associate_type"), rs.getString("associate_type_name"));
+
+        this.root_id = rs.getString("root_id");
+        
+        return this;
+    }
+    
     @Override
     public JsonObject toJson() {
 
@@ -444,28 +469,5 @@ public class BizEntity extends BasicEntity implements Serializable, Jsonizable {
         return json;
     }
     
-    public BizEntity fromRs(ResultSet rs) throws SQLException {
-    	this.code = rs.getString("code");
-		this.name = rs.getString("name");
-		this.description = rs.getString("description");
-		this.help_info = rs.getString("help_info");
-		this.table_name = rs.getString("table_name");
-		this.entity_class = rs.getString("entity_class");
-        
-		
-        //todo
-		this.load_seq = rs.getInt("load_seq");
-        this.access_level = new CodeName(rs.getString("access_level"), rs.getString("access_level_name"));
-        this.doc_type = new CodeName(rs.getString("doc_type"), rs.getString("doc_type_name"));
-        this.primary_field = rs.getString("primary_field");
-        this.primary_column = rs.getString("primary_column");
-        this.related_field = rs.getString("related_field");
-        this.related_column = rs.getString("related_column");
-        this.level = rs.getInt("level");
-        this.associate_type = new CodeName(rs.getString("associate_type"), rs.getString("associate_type_name"));
-
-        this.root_id = rs.getString("root_id");
-        
-        return this;
-    }
+    
 }
