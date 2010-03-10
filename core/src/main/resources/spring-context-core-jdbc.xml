@@ -25,9 +25,10 @@
          <property name = "dataSource" ref="dataSource"/>   
     </bean>  
     
-    <!-- bean id = "actorJdbcTemplateDao"   
-         class = "com.logcd.bo.dao.impl.ActorJdbcTemplateDaoImpl">   
+    
+    <bean id = "jdbcBase"   
+         class = "com.bizcreator.core.session.jdbc.JdbcBase">   
          <property name="jdbcTemplate" ref="jdbcTemplate"/>   
-    </bean-->
+    </bean>
     
 </beans>
