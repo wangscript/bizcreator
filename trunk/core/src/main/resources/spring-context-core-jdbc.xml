@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-2.5.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-2.5.xsd"
+       default-lazy-init="true">
+
+    <bean id="ibatisTxManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="ds-bizcreator" />
+    </bean>
+
+    <bean id = "txManager"   
+         class = "org.springframework.jdbc.datasource.DataSourceTransactionManager">   
+         <property name = "dataSource" ref="dataSource"/>   
+    </bean>  
+    
+    <tx:annotation-driven transaction-manager="txManager"/>
+      
+    <!--1:配置一个JdbcTemplate实例，并将这个“共享的”，“安全的”实例注入到不同的DAO类中去-->  
+    <bean id = "jdbcTemplate"   
+         class = "org.springframework.jdbc.core.JdbcTemplate">   
+         <property name = "dataSource" ref="dataSource"/>   
+    </bean>  
+    
+    <!-- bean id = "actorJdbcTemplateDao"   
+         class = "com.logcd.bo.dao.impl.ActorJdbcTemplateDaoImpl">   
+         <property name="jdbcTemplate" ref="jdbcTemplate"/>   
+    </bean-->
+    
+</beans>
