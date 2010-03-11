@@ -360,8 +360,8 @@ public class HttpSessionServer
             
             session.setAttribute(User.USER_KEY, loginContext.getUser());
 
-            session.setAttribute(RhSessionContext.CLIENT_ID, loginContext.getClientId());
-            session.setAttribute(RhSessionContext.ORG_ID, loginContext.getOrgId());
+            session.setAttribute(RhSessionContext.CLIENT_ID, loginContext.getClient_id());
+            session.setAttribute(RhSessionContext.ORG_ID, loginContext.getOrg_id());
             session.setAttribute(RhSessionContext.DUTY_ID, loginContext.getDutyId());
 
             Map attrs = loginContext.getAttributes();

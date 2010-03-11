@@ -28,16 +28,16 @@ public abstract class IBatis3Base extends SqlSessionDaoSupport implements BasicD
         entity.setId(UUID.randomUUID().toString());
         if (entity instanceof BasicEntity) {
             BasicEntity be = (BasicEntity) entity;
-            be.setActive(true);
+            be.setIs_active(true);
             be.setCreated(new Date(System.currentTimeMillis()));
-            be.setCreatedBy("Admin");
+            be.setCreated_by("Admin");
             be.setUpdated(new Date(System.currentTimeMillis()));
-            be.setUpdatedBy("Admin");
-            if (be.getClientId() == null) {
-                be.setClientId("0");
+            be.setUpdated_by("Admin");
+            if (be.getClient_id() == null) {
+                be.setClient_id("0");
             }
-            if (be.getOrgId() == null) {
-                be.setOrgId("0");
+            if (be.getOrg_id() == null) {
+                be.setOrg_id("0");
             }
         }
         getSqlSessionTemplate().insert(ns() + ".insert",entity);
@@ -49,7 +49,7 @@ public abstract class IBatis3Base extends SqlSessionDaoSupport implements BasicD
         if (entity instanceof BasicEntity) {
             BasicEntity be = (BasicEntity) entity;
             be.setUpdated(new Date(System.currentTimeMillis()));
-            be.setUpdatedBy("Admin");
+            be.setUpdated_by("Admin");
         }
         getSqlSessionTemplate().update(ns() + ".update", entity);
         return entity;

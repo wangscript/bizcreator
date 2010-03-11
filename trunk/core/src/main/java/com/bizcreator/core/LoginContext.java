@@ -6,7 +6,6 @@
 package com.bizcreator.core;
 
 import com.bizcreator.core.json.BizJsonObject;
-import com.bizcreator.core.json.JSONConverter;
 import com.bizcreator.core.json.Jsonizable;
 import com.bizcreator.core.security.User;
 import com.google.gson.JsonObject;
@@ -24,17 +23,17 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
     private String domain;
 
     private User user;
-    private String clientId;
-    private String orgId;
+    private String client_id;
+    private String org_id;
     private String dutyId;
 
     private Map<String, Object> attributes = new HashMap<String, Object> ();
 
-    public LoginContext(User user, String clientId,
-            String orgId,  String dutyId) {
+    public LoginContext(User user, String client_id,
+            String org_id,  String dutyId) {
         this.user = user;
-        this.clientId = clientId;
-        this.orgId = orgId;
+        this.client_id = client_id;
+        this.org_id = org_id;
         this.dutyId = dutyId;
     }
 
@@ -55,20 +54,20 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
         this.user = user;
     }
 
-    public String getClientId() {
-        return clientId;
+    public String getClient_id() {
+        return client_id;
     }
 
-    public void setClientId(String clientId) {
-        this.clientId = clientId;
+    public void setClient_id(String client_id) {
+        this.client_id = client_id;
     }
 
-    public String getOrgId() {
-        return orgId;
+    public String getOrg_id() {
+        return org_id;
     }
 
-    public void setOrgId(String orgId) {
-        this.orgId = orgId;
+    public void setOrg_id(String org_id) {
+        this.org_id = org_id;
     }
 
     public String getDutyId() {
@@ -94,8 +93,8 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
     public JsonObject toJson() {
     	JsonObject json = new JsonObject();
     	json.addProperty("domain", this.domain);
-    	json.addProperty("clientId", this.clientId);
-    	json.addProperty("orgId", this.orgId);
+    	json.addProperty("client_id", this.client_id);
+    	json.addProperty("org_id", this.org_id);
     	json.addProperty("dutyId", this.dutyId);
     	return json;
     }
@@ -103,8 +102,8 @@ public class LoginContext implements java.io.Serializable, Jsonizable {
     public Object fromJson(BizJsonObject json) {
     	
     	this.domain = json.getAsString("domain");
-    	this.clientId = json.getAsString("clientId");
-    	this.orgId = json.getAsString("orgId");
+    	this.client_id = json.getAsString("client_id");
+    	this.org_id = json.getAsString("org_id");
     	this.dutyId = json.getAsString("dutyId");
     	
         return this;

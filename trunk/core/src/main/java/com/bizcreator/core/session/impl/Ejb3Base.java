@@ -51,13 +51,13 @@ public abstract class Ejb3Base extends AbstractSession {
             BasicEntity be = (BasicEntity) entity;
             //BasicInfo bi = be.getBi() == null ? new BasicInfo() : be.getBi();
             Date date = new Date(System.currentTimeMillis());
-            be.setClientId(getCtx().getClientId());
-            be.setOrgId(getCtx().getOrgId());
-            be.setActive(true);
+            be.setClient_id(getCtx().getClient_id());
+            be.setOrg_id(getCtx().getOrg_id());
+            be.setIs_active(true);
             be.setCreated(date);
-            be.setCreatedBy(getCtx().getUser().getUsername());
+            be.setCreated_by(getCtx().getUser().getUsername());
             be.setUpdated(date);
-            be.setUpdatedBy(getCtx().getUser().getUsername());
+            be.setUpdated_by(getCtx().getUser().getUsername());
 
             //be.setBi(bi);
         }
@@ -71,15 +71,15 @@ public abstract class Ejb3Base extends AbstractSession {
             //BasicInfo bi = be.getBi();
             Date date = new Date(System.currentTimeMillis());
 
-            if (be.getClientId() == null) {
-                be.setClientId(getCtx().getClientId());
-                be.setOrgId(getCtx().getOrgId());
-                be.setActive(true);
+            if (be.getClient_id() == null) {
+                be.setClient_id(getCtx().getClient_id());
+                be.setOrg_id(getCtx().getOrg_id());
+                be.setIs_active(true);
                 be.setCreated(date);
-                be.setCreatedBy(getCtx().getUser().getUsername());
+                be.setCreated_by(getCtx().getUser().getUsername());
             }
             be.setUpdated(date);
-            be.setUpdatedBy(getCtx().getUser().getUsername());
+            be.setUpdated_by(getCtx().getUser().getUsername());
             //be.setBi(bi);
         }
         return (T) getEm().merge(entity);
@@ -121,9 +121,9 @@ public abstract class Ejb3Base extends AbstractSession {
     }
 
     protected Query createQuery(String qlString, boolean filterByClients) {
-        //qlString = qlString + " and o.clientId=:clientId";
+        //qlString = qlString + " and o.client_id=:client_id";
         Query query = getEm().createQuery(qlString);
-        //query.setParameter("clientId", getCtx().getClientId());
+        //query.setParameter("client_id", getCtx().getClient_id());
         return query;
     }
 
