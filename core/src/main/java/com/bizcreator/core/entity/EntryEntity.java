@@ -33,12 +33,12 @@ public class EntryEntity extends BasicEntity implements Serializable {
         super(id, name);
     }
 
-    public EntryEntity(String id, String name, String clientId,
-        String orgId, boolean isActive, Date created, String createdBy,
-        Date updated, String updatedBy, AtomicEntity master, boolean summary) {
+    public EntryEntity(String id, String name, String client_id,
+        String org_id, boolean is_active, Date created, String created_by,
+        Date updated, String updated_by, AtomicEntity master, boolean summary) {
 
-        super(id, name, clientId, orgId, isActive, created, createdBy,
-                updated, updatedBy);
+        super(id, name, client_id, org_id, is_active, created, created_by,
+                updated, updated_by);
         this.master = master;
         this.summary = summary;
     }

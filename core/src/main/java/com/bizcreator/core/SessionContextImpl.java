@@ -53,7 +53,7 @@ public class SessionContextImpl implements RhSessionContext {
      * 返回登录asp客户id
      * @return
      */
-    public String getClientId() {
+    public String getClient_id() {
         String id = (String) getSession().getAttribute(CLIENT_ID);
         if (id == null) {
             throw new RuntimeException("Client has not assigned for the user.");
@@ -63,7 +63,7 @@ public class SessionContextImpl implements RhSessionContext {
         //return "000000000015@rhino";
     }
 
-    public String getOrgId() {
+    public String getOrg_id() {
         String id = (String) getSession().getAttribute(ORG_ID);
         if (id == null) {
             throw new RuntimeException("Org has not assigned for the user.");

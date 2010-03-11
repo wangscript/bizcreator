@@ -35,7 +35,7 @@ public class UserService extends IBatis3Base implements IbatisUserMgr {
         //User user = (User) session.selectOne(ns() + ".authenticate", params);
         User user = (User) getSqlSessionTemplate().selectOne(ns() + ".authenticate", params);
         if (user != null) {
-            LoginContext loginCtx = new LoginContext(user, user.getClientId(), user.getOrgId(), null);
+            LoginContext loginCtx = new LoginContext(user, user.getClient_id(), user.getOrg_id(), null);
             loginCtx.setDomain("rhino");
             return loginCtx;
         }

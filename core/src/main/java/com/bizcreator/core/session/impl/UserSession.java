@@ -17,7 +17,7 @@ public class UserSession extends BasicSession implements UserManager {
             return null;
             //throw new BaseException("登录错误，请输入正确的用户名和密码!");
         }
-        LoginContext loginCtx = new LoginContext(user, user.getClientId(), user.getOrgId(), null);
+        LoginContext loginCtx = new LoginContext(user, user.getClient_id(), user.getOrg_id(), null);
         loginCtx.setDomain(getDomain());
         return loginCtx;
     }

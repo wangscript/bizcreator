@@ -74,20 +74,20 @@ public class HibernateBase extends AbstractSession {
             BasicEntity be = (BasicEntity) entity;
             Date date = new Date(System.currentTimeMillis());
 
-            if (be.getClientId() == null) {
-                be.setClientId(getCtx().getClientId());
+            if (be.getClient_id() == null) {
+                be.setClient_id(getCtx().getClient_id());
             }
-            if (be.getOrgId() == null) {
-                be.setOrgId(getCtx().getOrgId());
+            if (be.getOrg_id() == null) {
+                be.setOrg_id(getCtx().getOrg_id());
             }
-            be.setActive(true);
+            be.setIs_active(true);
             be.setCreated(date);
-            if (be.getCreatedBy() == null) {
-                be.setCreatedBy(getCtx().getUser().getUsername());
+            if (be.getCreated_by() == null) {
+                be.setCreated_by(getCtx().getUser().getUsername());
             }
             be.setUpdated(date);
-            if (be.getUpdatedBy() == null) {
-                be.setUpdatedBy(getCtx().getUser().getUsername());
+            if (be.getUpdated_by() == null) {
+                be.setUpdated_by(getCtx().getUser().getUsername());
             }
         }
         hibernate.persist(entity);
@@ -100,20 +100,20 @@ public class HibernateBase extends AbstractSession {
             //BasicInfo bi = be.getBi();
             Date date = new Date(System.currentTimeMillis());
 
-            if (be.getClientId() == null) {
-                be.setClientId(getCtx().getClientId());
+            if (be.getClient_id() == null) {
+                be.setClient_id(getCtx().getClient_id());
             }
-            if (be.getOrgId() == null) {
-                be.setOrgId(getCtx().getOrgId());
+            if (be.getOrg_id() == null) {
+                be.setOrg_id(getCtx().getOrg_id());
             }
-            be.setActive(true);
+            be.setIs_active(true);
             be.setCreated(date);
-            if (be.getCreatedBy() == null) {
-                be.setCreatedBy(getCtx().getUser().getUsername());
+            if (be.getCreated_by() == null) {
+                be.setCreated_by(getCtx().getUser().getUsername());
             }
 
             be.setUpdated(date);
-            be.setUpdatedBy(getCtx().getUser().getUsername());
+            be.setUpdated_by(getCtx().getUser().getUsername());
             //be.setBi(bi);
         }
         return (T) hibernate.merge(entity);
@@ -160,9 +160,9 @@ public class HibernateBase extends AbstractSession {
                 index = qlString.indexOf("WHERE");
             }
             if (index > 0) {
-                qlString = qlString.substring(0, index + 5) + " o.clientId in (" + getClients() + ") and " + qlString.substring(index + 5);
+                qlString = qlString.substring(0, index + 5) + " o.client_id in (" + getClients() + ") and " + qlString.substring(index + 5);
             }
-            //qlString = qlString + " and o.clientId in (" + getClients() + ")";
+            //qlString = qlString + " and o.client_id in (" + getClients() + ")";
         }
         
         final String qls = qlString;

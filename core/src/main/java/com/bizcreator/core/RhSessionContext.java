@@ -7,8 +7,8 @@ import javax.servlet.http.HttpSession;
 public interface RhSessionContext //extends SessionContext 
 {
 	
-	public final static String CLIENT_ID = "clientId";
-	public final static String ORG_ID = "orgId";
+	public final static String CLIENT_ID = "client_id";
+	public final static String ORG_ID = "org_id";
 	
     //public final static String USER = "user";
 	//public final static String USERNAME = "username";
@@ -26,9 +26,9 @@ public interface RhSessionContext //extends SessionContext
 	
 	//public Responsibility getResponsibility(String menuId);
 
-	public String  getClientId();
+	public String  getClient_id();
 	
-	public String getOrgId();
+	public String getOrg_id();
 
         public AtomicEntity getUserOrg();
 

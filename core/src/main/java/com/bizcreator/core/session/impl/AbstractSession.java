@@ -184,10 +184,10 @@ public abstract class AbstractSession implements ServiceBase {
 
     protected Object parseParam(Object param) {
         Object result = param;
-        if ("$clientId".equals(param)) {
-            result = getCtx().getClientId();
-        } else if ("$orgId".equals(param)) {
-            result = getCtx().getOrgId();
+        if ("$client_id".equals(param)) {
+            result = getCtx().getClient_id();
+        } else if ("$org_id".equals(param)) {
+            result = getCtx().getOrg_id();
         } else if ("$dutyId".equals(param)) {
             result = getCtx().getDutyId();
         } else if (param instanceof String && ((String) param).startsWith("$")) {
@@ -200,9 +200,9 @@ public abstract class AbstractSession implements ServiceBase {
 
     protected String getClients() {
         String clients = "'0'";
-        String clientId = getCtx().getClientId();
-        if (!"0".equals(clientId)) {
-            clients = "'" + clientId + "'," + clients;
+        String client_id = getCtx().getClient_id();
+        if (!"0".equals(client_id)) {
+            clients = "'" + client_id + "'," + clients;
         }
         return clients;
     }
