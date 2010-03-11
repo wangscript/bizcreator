@@ -5,13 +5,13 @@
     <resultMap id="userResultMap" type="com.bizcreator.core.entity.User">
 
         <id property="id" column="ID" />
-        <result property="isActive" column="IS_ACTIVE"/>
-        <result property="clientId" column="CLIENT_ID"/>
-        <result property="orgId" column="ORG_ID"/>
+        <result property="is_active" column="IS_ACTIVE"/>
+        <result property="client_id" column="CLIENT_ID"/>
+        <result property="org_id" column="ORG_ID"/>
         <result property="created" column="CREATED"/>
-        <result property="createdBy" column="CREATED_BY"/>
+        <result property="created_by" column="CREATED_BY"/>
         <result property="updated" column="UPDATED"/>
-        <result property="updatedBy" column="UPDATED_BY"/>
+        <result property="updated_by" column="UPDATED_BY"/>
 
         <result property="code" column="CODE"/>
         <result property="name" column="NAME"/>
@@ -30,17 +30,17 @@
         , UPDATED, UPDATED_BY, CODE, NAME, EMAIL, MOBILE
         , MSN, PHONE, QQ, PASSWORD)
         VALUES (
-        #{id}, #{isActive}, #{clientId}, #{orgId}, #{created}, #{createdBy}
-        , #{updated}, #{updatedBy}, #{code}, #{name}, #{email}, #{mobile}
+        #{id}, #{is_active}, #{client_id}, #{org_id}, #{created}, #{created_by}
+        , #{updated}, #{updated_by}, #{code}, #{name}, #{email}, #{mobile}
         , #{msn}, #{phone}, #{qq}, #{password, jdbcType=VARCHAR}
         )
     </insert>
 
     <update id="update" parameterType="com.bizcreator.core.entity.User">
         UPDATE BIZ_USER
-        SET IS_ACTIVE = #{isActive} ,
+        SET IS_ACTIVE = #{is_active} ,
         UPDATED = #{updated} ,
-        UPDATED_BY = #{updatedBy} ,
+        UPDATED_BY = #{updated_by} ,
         CODE = #{code} ,
         EMAIL = #{email} ,
         MOBILE = #{mobile} ,
