@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <title>修 改 用 户 信息</title>
+    <style type="text/css">
+        .clear {
+  clear: both;
+}
+
+form {
+  /*font-size: 1.4em;*/
+  width: 40em;
+}
+
+
+/* fieldset styling */
+fieldset {
+  margin: 1em 0; /*  space out the fieldsets a little*/
+  padding: 1em;
+  border : 1px solid #ccc;
+  background-color:#F5F5F5
+}
+
+/* legend styling */
+legend {
+  font-weight: bold;
+}
+
+form p {
+  position: relative;
+  width: 100%;
+}
+
+/* style for  labels */
+label {
+  float: left;
+  width: 10em;
+}
+
+#remember-me label {
+  width: 4em;
+}
+
+/* style for required labels */
+label .required {
+  font-size: 0.83em;
+  color:#760000;
+}
+
+/* style error messages */
+label .feedback {
+  position: absolute;
+  margin-left: 11em;
+  left: 200px;
+  right: 0;
+  font-weight: bold;
+  color:#760000;
+  padding-left: 18px;
+  background: url(assets/images/error.png) no-repeat left top;
+}
+
+/* :KLUDGE: Explicitly set the width for IE6- */
+* html .feedback{
+  width: 10em;
+}
+
+input {
+  width: 200px;
+}
+
+input[type="text"], textarea {
+  border-top: 2px solid #999;
+  border-left: 2px solid #999;
+  border-bottom: 1px solid #ccc;
+  border-right: 1px solid #ccc;
+}
+
+input.radio, input.checkbox, input.submit {
+  width: auto;
+}
+
+/* style form elements on focus */
+input:focus, textarea:focus {
+  background: #ffc;
+}
+
+input.radio {
+  float: left;
+  margin-right: 1em;
+}
+
+textarea {
+  width: 300px;
+  height: 100px;
+}
+
+/* Date of Birth form styling */
+
+#monthOfBirthLabel, #yearOfBirthLabel {
+  text-indent: -1000em;
+  width: 0;
+}
+
+#dateOfBirth {
+  width: 3em;
+  margin-right: 0.5em;
+}
+
+#monthOfBirth {
+  width: 10em;
+  margin-right: 0.5em;
+}
+
+#yearOfBirth {
+  width: 5em;
+}
+
+/* Color form styling */
+#favoriteColor {
+  margin: 0;
+  padding: 0;
+  border: none;
+  background: transparent;
+}
+
+#favoriteColor h2 {
+  width: 10em;
+  float: left;
+  font-size: 1em;
+  font-weight: normal;
+}
+
+#favoriteColor div {
+  width: 8em;
+  float: left;
+}
+
+#favoriteColor label {
+  /*width: 3em;*/
+  float: none;
+  display: inline;
+}
+
+/*#favoriteColor p {
+  margin: 0.3em 0;
+}*/
+
+    </style>
+</h:head>
+<h:body>
+    <h2>修 改 用 户 信息</h2>
+    <h:form>
+        <p>
+            <label class="lb">用户名</label>
+            <h:inputText id="iptName" name="username"  value="#{userBean.name}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="0" />
+            <strong class="domain"><span>@mysite.com</span></strong>
+        </p>
+        <p>
+            <label class="lb">用户编码</label>
+            <h:inputText id="iptCode" name="code"  value="#{userBean.code}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="1" />
+        </p>
+        <p>
+            <label class="lb">电话(座机)</label>
+            <h:inputText id="iptPhone" name="phone"  value="#{userBean.phone}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="2" />
+        </p>
+        <p>
+            <label class="lb">手机</label>
+            <h:inputText id="iptMobile" name="mobile"  value="#{userBean.mobile}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="3" />
+        </p>
+        <p>
+            <label class="lb">电子邮箱</label>
+            <h:inputText id="iptEMail" name="email"  value="#{userBean.email}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="4" />
+        </p>
+        <p>
+            <label class="lb">QQ</label>
+            <h:inputText id="iptQq" name="qq"  value="#{userBean.qq}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="5" />
+        </p>
+        <p>
+            <label class="lb">MSN</label>
+            <h:inputText id="iptMsn" name="msn"  value="#{userBean.msn}" class="ipt-t no-ime" onfocus="this.className+=' ipt-t-focus'" onblur="this.className='ipt-t no-ime'" tabindex="6" />
+        </p>
+        <div class="fi fi-btn">
+            <h:commandButton action="#{userBean.save}" class="ipt-b" value="保  存" onmouseover="this.className+=' ipt-b-hover'" onmouseout="this.className='ipt-b'" name="enter.x" tabindex="7"  />
+            <h:commandButton action="UserList" class="ipt-b" value="返  回" onmouseover="this.className+=' ipt-b-hover'" onmouseout="this.className='ipt-b'" name="enter.x" tabindex="7"  />
+            <span class="err" id="error_div"></span>
+        </div>
+    </h:form>
+</h:body>
+</html>
