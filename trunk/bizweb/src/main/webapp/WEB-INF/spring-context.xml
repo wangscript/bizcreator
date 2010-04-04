@@ -9,6 +9,6 @@
 
     <import resource="classpath:spring-context-env.xml"/>
 
-    <import resource="classpath:spring-context-core-ibatis.xml"/>
+    <import resource="classpath:spring-context-core-jdbc.xml"/>
 
 </beans>
