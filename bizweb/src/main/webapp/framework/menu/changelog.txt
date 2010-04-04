@@ -1,9 +1,0 @@
-1.0.1
-
-New themes added to the library. Those were Nvidia and Flickr.
-Support for Mootools added. This is a JavaScript helper for the IE6 or earlier.
-
-1.0.2
-
-Support for Scriptaculous available (Thanks to César Izurieta @ http://caih.org/)
-Changes to jquery.dropdown.js - it's now a function!
