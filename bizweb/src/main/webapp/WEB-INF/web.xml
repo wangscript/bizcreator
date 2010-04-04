@@ -21,7 +21,7 @@
     </listener>
     
     <!-- 登录Filter -->
-    <!--filter>
+    <filter>
         <filter-name>LoginFilter</filter-name>
         <filter-class>com.bizcreator.core.web.LoginFilter</filter-class>
         <init-param>
@@ -32,13 +32,13 @@
         <init-param>
             <description>登录页面</description>
             <param-name>loginPage</param-name>
-            <param-value>/framework/login.jsf</param-value>
+            <param-value>/modules/User/Login.jsp</param-value>
         </init-param>
         </filter>
     <filter-mapping>
         <filter-name>LoginFilter</filter-name>
-        <url-pattern>*.jsf</url-pattern>
-    </filter-mapping-->
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
     
     <!-- jsf config -->
 	<!--
@@ -97,5 +97,118 @@
         <url-pattern>/BsfInvokerServlet/*</url-pattern>
     </servlet-mapping>
     
+    <!-- DirectJNgine servlet -->
+  <servlet>
+    <servlet-name>DjnServlet</servlet-name>
+    <servlet-class>com.softwarementors.extjs.djn.servlet.DirectJNgineServlet</servlet-class>
+    
+    <init-param>
+      <param-name>debug</param-name>
+      <param-value>true</param-value>
+    </init-param>   
+
+    <init-param>
+      <param-name>minify</param-name>
+      <param-value>false</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>providersUrl</param-name>
+      <param-value>djn/directprovider</param-value>
+    </init-param>
+
+	<!--
+    <init-param>
+      <param-name>registryConfiguratorClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.test.servlet.config.RegistryConfiguratorForTesting</param-value> 
+    </init-param>
+
+    <init-param>
+      <param-name>gsonBuilderConfiguratorClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.test.config.GsonBuilderConfiguratorForTesting</param-value>
+    </init-param>
+	-->
+	
+<!-- Not needed, unless the context is the default one ('/' or '')
+    <init-param>
+      <param-name>contextPath</param-name>
+      <param-value>/</param-value>
+    </init-param>
+-->    
+
+<!-- This is already the default 
+    <init-param>
+      <param-name>dispatcherClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.servlet.ssm.SsmDispatcher</param-value>
+    </init-param>
+-->    
+
+<!-- This is already the default 
+    <init-param>
+      <param-name>jsonRequestProcessorThreadClass</param-name>
+      <param-value>com.softwarementors.extjs.djn.servlet.ssm.SsmJsonRequestProcessorThread</param-value>
+    </init-param>
+-->    
+
+    <init-param>
+      <param-name>batchRequestsMultithreadingEnabled</param-name>
+      <param-value>false</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>apis</param-name>
+      <param-value>
+        demo,
+        core
+      </param-value>
+    </init-param>
+    
+    <init-param>
+      <param-name>demo.apiFile</param-name>
+      <param-value>demo/Api.js</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>demo.apiNamespace</param-name>
+      <param-value>Ext.app</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>demo.classes</param-name>
+      <param-value>
+      com.softwarementors.extjs.djn.demo.Poll,
+      com.softwarementors.extjs.djn.demo.TestAction,
+      com.softwarementors.extjs.djn.demo.Profile,
+      com.softwarementors.extjs.djn.demo.FormPostDemo,
+      com.softwarementors.extjs.djn.demo.DirectStoreDemo
+      </param-value>
+    </init-param>
+	
+	<init-param>
+      <param-name>core.apiFile</param-name>
+      <param-value>core/core-api.js</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>core.apiNamespace</param-name>
+      <param-value>Biz.core</param-value>
+    </init-param>
+
+    <init-param>
+      <param-name>core.classes</param-name>
+      <param-value>
+      	com.bizcreator.core.action.JdbcAction
+      </param-value>
+    </init-param>
+
+    <load-on-startup>1</load-on-startup>
+    
+  </servlet>  
+  
+  <servlet-mapping>
+    <servlet-name>DjnServlet</servlet-name>
+    <url-pattern>/djn/directprovider/*</url-pattern>
+  </servlet-mapping>
+  
     
 </web-app>
