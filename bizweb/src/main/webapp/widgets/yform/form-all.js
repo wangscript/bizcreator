@@ -311,7 +311,7 @@ Y.extend(Form, Y.Widget, {
 				}
 				fields.push(o);
 			}
-			if (!forAttach) { //added....
+			if (!forAttach) { //added by lgh....
 				node.remove();
 			}
 		});

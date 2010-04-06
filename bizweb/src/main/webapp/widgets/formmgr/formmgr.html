@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+YUI({
+    modules: {
+        'gallery-formmgr': {
+            fullpath: 'http://yui.yahooapis.com/gallery-2010.04.02-17-26/build/gallery-formmgr/gallery-formmgr-min.js',
+            requires: ['node-base','substitute'],
+            optional: ['gallery-scrollintoview'],
+            supersedes: []
+      }
+ 
+    }
+}).use('gallery-formmgr', function(Y)
+{
+	var f = new Y.FormManager('test_form',
+	{
+		status_node: '#form-status',
+		default_value_map:		// overrides values in markup
+		{
+			s1: 'abc',
+			b1: 1,
+			b2: 0
+		}
+	});
+ 
+	f.prepareForm();
+	f.initFocus();		// only do this for one form on a page
+ 
+	// validations
+ 
+	f.setErrorMessages('email',
+	{
+		required: 'Please tell us how to spam you.  (Just kidding!)',
+		regex:    'Please enter a valid email address.'
+	});
+	f.setRegex('email', /@.+\..+/);		// not trying very hard
+ 
+	f.setErrorMessages('zip',
+	{
+		regex: 'Please enter a valid US ZIP Code.'
+	});
+	f.setRegex('zip', /^[0-9]{5}(?:-[0-9]{4})?$/);
+ 
+	f.setFunction('pw', function(form)
+	{
+		if (form.pw.value != form.pw2.value)
+		{
+			f.displayMessage(form.pw, 'Your password entries did not match.', 'error');
+			f.displayMessage(form.pw2, '', 'error');
+			return false;
+		}
+ 
+		return true;
+	});
+ 
+	f.postValidateForm = function(form)
+	{
+		var count = 0;
+		Y.each([form.b1, form.b2, form.b3], function(b)
+		{
+			if (b.checked) count++;
+		});
+ 
+		if (count < 2)
+		{
+			f.displayMessage(form.b1, 'Please select at least two checkboxes.', 'warn');
+			return false;
+		}
+ 
+		return true;
+	};
+});
+</script>
+</body>
+</html>
