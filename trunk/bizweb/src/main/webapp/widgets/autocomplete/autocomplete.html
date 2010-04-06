@@ -1,0 +1,47 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<script type="text/javascript">
+YUI({
+    modules: {
+        'gallery-autocomplete': {
+            fullpath: 'http://yui.yahooapis.com/gallery-2010.01.27-20/build/gallery-autocomplete/gallery-autocomplete-min.js',
+            requires: ['node','plugin','gallery-value-change','event-key'],
+            optional: ['event-custom','datasource'],
+            supersedes: []
+        },
+        'gallery-value-change': {
+            fullpath: 'http://yui.yahooapis.com/gallery-2010.01.20-19/build/gallery-value-change/gallery-value-change-min.js',
+            requires: ['node-base','event-focus'],
+            optional: ['event-custom'],
+            supersedes: []
+      }
+ 
+    }
+}).use('gallery-autocomplete', 'datasource', function (Y) {
+ 
+    new Y.ACWidget({
+        ac : Y.get("#input").plug(Y.Plugin.ACPlugin, {
+            queryTemplate : function (q) { return "q=" + encodeURIComponent(
+                "select * from search.suggest where query =\"" +
+                q.replace(/(["\\])/g, '\\$1') +
+                "\" limit 10"
+            )},
+            dataSource : new Y.DataSource.Get({
+                source : "http://query.yahooapis.com/v1/public/yql?" +
+                    "format=json&" +
+                    "env=http%3A%2F%2Fdatatables.org%2Falltables.env&",
+                scriptCallbackParam : "callback"
+            }).plug({fn : Y.Plugin.DataSourceJSONSchema, cfg : {
+                schema : { resultListLocator : "query.results.Result" }
+            }})
+        }).ac
+    }).render();
+});
+</script>
+</body>
+</html>
