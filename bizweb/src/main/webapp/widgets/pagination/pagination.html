@@ -1,0 +1,81 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head> 
+<title>Cubee - 分页控件</title> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<style> 
+	ol li{clear:both;}
+</style> 
+<link rel="stylesheet" type="text/css" href="assets/pagination.css">
+<script src="http://yui.yahooapis.com/3.1.0/build/yui/yui-min.js"></script> 
+<script type="text/javascript" src="pagination.js"></script>
+</head> 
+<body class="yui-skin-sam"> 
+	<h1>Cubee-分页控件 <sub>By 空雁(kongyan@taobao.com)</sub></h1> 
+	<h3>基于YUI3 Widget的分页控件</h3> 
+	<ol> 
+<li><h3>基本的分页</h3> 
+<div id="page1"></div> 
+</li> 
+<li><h3>带跳转的分页</h3> 
+<div id="page2"></div> 
+</li> 
+<li><h3>设置分页的配置</h3> 
+<div id="page3"></div> 
+<br /> 
+<div style="clear:both;"> 
+<button id="page-setmax">设置总页数为50</button> 
+<button id="page-setstep">设置页数步长为10</button> 
+<button id="page-setindex">设置当前页数为20</button> 
+</div> 
+</li> 
+<li><h3>页数回调</h3> 
+<div id="page4"></div> 
+</li> 
+</ol> 
+
+
+
+<script type="text/javascript"> 
+YUI().use('pagination', 'console', function(Y){
+    //new Y.Console().render();
+    var p1 = new Y.Pagination({
+        contentBox: '#page1',
+        max: 22,
+        index: 10
+    });
+    p1.on('trigger', function (e) {
+        Y.log(e.page);
+	});
+	
+	var p2 = new Y.Pagination({
+        contentBox: '#page2',
+        max: 42,
+        jump: true
+    });
+    p2.on('trigger', function (e) {
+        Y.log(e.page);
+	});
+	
+	var p3 = new Y.Pagination({
+        contentBox: '#page3',
+        max: 25
+    });
+    p3.on('trigger', function (e) {
+        Y.log(e.page);
+	});
+	Y.one('#page-setmax').on('click', function(e){p3.setMax(50);});
+	Y.one('#page-setstep').on('click', function(e){p3.setStep(10);});
+	Y.one('#page-setindex').on('click', function(e){p3.setIndex(20);});
+ 
+	var p4 = new Y.Pagination({
+        contentBox: '#page4',
+        max: 30
+    });
+    p4.on('trigger', function (e) {
+        alert('您点击的页数是：'+e.page+'\n总页数是：'+e.max);
+	});
+});
+</script> 
+</body> 
+</html>
