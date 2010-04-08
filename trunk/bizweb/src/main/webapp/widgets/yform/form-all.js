@@ -218,6 +218,9 @@ Y.extend(Form, Y.Widget, {
 				}
 				
 				fields[i] = new fieldType(f);
+				if (f.node) {
+					fields[i]._fieldNode = f.node;
+				}
 			}
 		}, this);
 		return fields;
@@ -308,6 +311,9 @@ Y.extend(Form, Y.Widget, {
 							o.label = labelNode.get('innerHTML');
 						}
 					});
+				}
+				if (forAttach) {
+					o.node = node;
 				}
 				fields.push(o);
 			}
@@ -446,22 +452,28 @@ Y.extend(Form, Y.Widget, {
 				fields = this.get('fields'), 
 				postData = '', 
 				transaction, cfg;
-
-			Y.Array.each(fields, function (f, i, a) {
-				if (f.get('name') !== null) {
-					postData += encodeURIComponent(f.get('name')) + '=' +
-								(encodeURIComponent(f.get('value')) || '') + '&';
-				}
-			});
-
-			cfg = {
-				method : formMethod,
-				data : postData
-			};
-
-			transaction = Y.io(formAction, cfg);
-
-			this._ioIds[transaction.id] = transaction;
+				
+			if (formAction.indexOf('/rmi') > -1) {
+				var data = this.getData();
+				this.fire('submit', {data: data});
+			}
+			else {
+				Y.Array.each(fields, function (f, i, a) {
+					if (f.get('name') !== null) {
+						postData += encodeURIComponent(f.get('name')) + '=' +
+									(encodeURIComponent(f.get('value')) || '') + '&';
+					}
+				});
+				
+				cfg = {
+					method : formMethod,
+					data : postData
+				};
+	
+				transaction = Y.io(formAction, cfg);
+	
+				this._ioIds[transaction.id] = transaction;
+			}
 		}
 	},
 	
@@ -535,13 +547,13 @@ Y.extend(Form, Y.Widget, {
 	//-------------------新增 -----------------
 	syncModel : function() {
 		this.setAttrs({
-			action : _formNode.get('action'),
-			method : _formNode.get('method'),
-			id : _formNode.get('id')
+			action : this._formNode.get('action'),
+			method : this._formNode.get('method'),
+			id : this._formNode.get('id')
 		}); 
 	},
 	
-	atach : function(node) {
+	attach : function(node) {
 		if (typeof node === 'string') {
 			node = Y.one(node);
 		}
@@ -554,8 +566,15 @@ Y.extend(Form, Y.Widget, {
 	_attachFields : function() {
 		if (this._formNode) {
 			var fields = this._parseFields(this._formNode, true);
-			this._setFields(fields);
+			this.set('fields', fields);
+			fields = this.get('fields');
+			
+			Y.Array.each(fields, function (f, i, a) {
+				f.bindUI();
+    			f.syncUI();
+			}, this);
 		}
+		
 	},
 	
 	setData : function(data) {
@@ -592,6 +611,7 @@ Y.extend(Form, Y.Widget, {
 				}
 			}
 		}
+		return this.data;
 	},
 	
 	applyData : function(data) {
@@ -1215,6 +1235,7 @@ Y.extend(FormField, Y.Widget, {
 	},
 
 	bindUI : function () {
+		
 		this._fieldNode.on('change', Y.bind(function (e) {
 			this.set('value', this._fieldNode.get('value'), {src : 'ui'});
 			this.fire('change', e);
@@ -1791,6 +1812,7 @@ Y.extend(Button, Y.FormField, {
 	},
 
 	_setClickHandler : function () {
+		
 		if (!this._fieldNode) {
 			return;
 		}
@@ -1807,6 +1829,10 @@ Y.extend(Button, Y.FormField, {
 	bindUI : function () {
 		this.after('onclickChange', Y.bind(this._setClickHandler, this, true));
 		this._setClickHandler();
+	},
+	
+	clear : function () {
+		//do nothing
 	}
 });
 
