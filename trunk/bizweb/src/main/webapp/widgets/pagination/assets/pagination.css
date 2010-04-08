@@ -1,0 +1,16 @@
+.yui3-pagination-content{font:normal 12px/1.5 'Tahoma','simsun';clear:both;}
+.yui3-pagination-focused{outline:none;}
+.yui3-pagination-content em{font-style:normal;color:#818181;float:left;}
+.yui3-pagination-content ins{text-decoration:none;color:#989898;margin-left:10px;margin-top:6px;float:left;}
+.yui3-pagination-content ins input{width:40px; border:1px solid #D4D4D4;margin:0 5px;}
+.yui3-pagination-content ins button{border:1px solid #808080; background:#ffffff;color:#989898;cursor:pointer;margin-left:5px;padding:0;width:36px;height:20px;}
+.yui3-pagination-content ins button:hover, .yui3-pagination-content ins button.jumpbtn-hover{background:#009FE8;color:#ffffff;}
+.yui3-pagination-content a{float:left;height:18px;border:1px solid #D3D3D3; padding:2px 6px 3px;line-height:1.5em;margin: 3px;color:#808080;text-decoration:none;cursor:pointer;}
+.yui3-pagination-content a:hover{border-color:#019FE8; color:#009EE8;}
+.yui3-pagination-content .current{background:#00A0E9; border-color:#00A0E9; color:#FFFFFF !important;}
+.yui3-pagination-content .page-prev, .yui3-pagination-content .page-prev-disabled, .yui3-pagination-content .page-next, .yui3-pagination-content .page-next-disabled{background:url(skins/sam/T1_PVrXaNfXXXXXXXX-4-88.png) no-repeat 9px -19px; padding-left: 10px;}
+
+.yui3-pagination-content .page-prev-disabled, .yui3-pagination-content .page-next-disabled{background-position: 9px 8px;cursor:text;border-color:#D4D4D4 !important; color:#D4D4D4 !important;}
+.yui3-pagination-content .page-prev, .yui3-pagination-content .page-prev-disabled{width:8px;text-indent:20px;overflow:hidden;}
+.yui3-pagination-content .page-next, .yui3-pagination-content .page-next-disabled{background-position:42px -73px; padding-right: 10px;padding-left:3px;}
+.yui3-pagination-content .page-next-disabled{background-position: 42px -46px;}
